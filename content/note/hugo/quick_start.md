@@ -1,6 +1,6 @@
 ---
 date: "2025-12-20T16:59:04+08:00"
-title: "使用Hugo搭建一个静态博客"
+title: "Hugo 搭建一个静态博客"
 tags: ["Hugo", "PaperMod"]
 categories: "笔记"
 # description: "Hugo静态博客搭建笔记"

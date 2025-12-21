@@ -5,8 +5,8 @@ defaultContentLanguage: zh-cn
 defaultContentLanguageInSubdir: false
 # 博客名称
 title: "🍺Let's Beer!!"
-# 主题 别动
-theme: "PaperMod"
+# 主题
+theme: ["PaperModX","PaperMod"]
 # 每页多少文章
 # 官方文档中使用的 paginate 已经弃用
 paginate.pagerSize: 5
@@ -59,10 +59,14 @@ params:
   ShowWordCount: true
   # 显示RSS订阅按钮
   ShowRssButtonInSectionTermList: flase
-  disableSpecial1stPost: false
+  disableSpecial1stPost: true
   # 关闭回到顶部按钮
   disableScrollToTop: false
   hideFooter: false
+  # 目录位置
+  TocSide: 'right'  # or 'left'
+
+  EnableInstantClick: true
 
   languageAltTitle: “English”
   displayFullLangName: true
@@ -139,6 +143,7 @@ params:
     limit: 10 # refer: https://www.fusejs.io/api/methods.html#search
     keys: ["title", "permalink", "summary", "content"]
 
+
 menu:
   main:
     - identifier: archives
@@ -157,6 +162,12 @@ menu:
       name: 搜索
       url: /search/
       weight: 4
+    # - identifier: auth
+    #   name: 作者
+    #   url: "https://baidu.com"
+    #   weight: 5
+    #   params:
+    #     external: true
 
 # Read: https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
 pygmentsUseClasses: true
