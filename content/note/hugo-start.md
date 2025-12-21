@@ -225,12 +225,34 @@ other = "目录"
   .hugo_build.lock
   public/
   ```
-
-
-## 完整配置
+3. 修改 git 仓库构建部署源
+  将 `Setting > Pages > Build and deployment > Source` 配置由 `Deploy from a branch` 修改为 `Github Action`。
+4. 修改图片缓存路径
+  在站点配置文件 `hugo.yaml` 中添加以下配置:
+  ```yaml
+  caches:
+    images:
+      dir: :cacheDir/images
+  ```
+5. 添加 git 工作流配置
+  添加配置文件 `.github/workflows/hugo.yaml`，可以执行一下命令：
+  ```bash
+  mkdir -p .github/workflows
+  touch .github/workflows/hugo.yaml#
+  ```
+  具体配置放在文末[传送门](#github工作流配置)
+6. 提交配置
+  ```bash
+  git add .
+  git commit -m "github workflow"
+  git push
+  ```
+7. 查看效果
+  进入 github 仓库，选择 `Action` 选项，即可看到部署状态。
+  
+## 参考配置
 
 ### hugo.yaml
-
 ```yaml
 baseURL: https://example.org/
 # 博客语言
@@ -438,6 +460,117 @@ UseHugoToc: true
 
 ```toml
 
+```
+
+### Github工作流配置
+```yaml
+# .github/workflows/hugo.yaml
+name: Build and deploy
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+defaults:
+  run:
+    shell: bash
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      DART_SASS_VERSION: 1.97.1
+      GO_VERSION: 1.25.5
+      HUGO_VERSION: 0.153.1
+      NODE_VERSION: 24.12.0
+      TZ: Europe/Oslo
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          submodules: recursive
+          fetch-depth: 0
+      - name: Setup Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: ${{ env.GO_VERSION }}
+          cache: false
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+      - name: Setup Pages
+        id: pages
+        uses: actions/configure-pages@v5
+      - name: Create directory for user-specific executable files
+        run: |
+          mkdir -p "${HOME}/.local"
+      - name: Install Dart Sass
+        run: |
+          curl -sLJO "https://github.com/sass/dart-sass/releases/download/${DART_SASS_VERSION}/dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz"
+          tar -C "${HOME}/.local" -xf "dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz"
+          rm "dart-sass-${DART_SASS_VERSION}-linux-x64.tar.gz"
+          echo "${HOME}/.local/dart-sass" >> "${GITHUB_PATH}"
+      - name: Install Hugo
+        run: |
+          curl -sLJO "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz"
+          mkdir "${HOME}/.local/hugo"
+          tar -C "${HOME}/.local/hugo" -xf "hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz"
+          rm "hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz"
+          echo "${HOME}/.local/hugo" >> "${GITHUB_PATH}"
+      - name: Verify installations
+        run: |
+          echo "Dart Sass: $(sass --version)"
+          echo "Go: $(go version)"
+          echo "Hugo: $(hugo version)"
+          echo "Node.js: $(node --version)"
+      - name: Install Node.js dependencies
+        run: |
+          [[ -f package-lock.json || -f npm-shrinkwrap.json ]] && npm ci || true
+      - name: Configure Git
+        run: |
+          git config core.quotepath false
+      - name: Cache restore
+        id: cache-restore
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ runner.temp }}/hugo_cache
+          key: hugo-${{ github.run_id }}
+          restore-keys:
+            hugo-
+      - name: Build the site
+        run: |
+          hugo \
+            --gc \
+            --minify \
+            --baseURL "${{ steps.pages.outputs.base_url }}/" \
+            --cacheDir "${{ runner.temp }}/hugo_cache"
+      - name: Cache save
+        id: cache-save
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ runner.temp }}/hugo_cache
+          key: ${{ steps.cache-restore.outputs.cache-primary-key }}
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./public
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 ```
 
 ## 参考资料
