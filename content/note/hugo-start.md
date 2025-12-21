@@ -4,7 +4,7 @@ title: "使用Hugo搭建一个静态博客"
 tags: ["Hugo", "PaperMod"]
 categories: "笔记"
 # description: "Hugo静态博客搭建笔记"
-draft: true
+draft: false
 
 showToc: true
 TocOpen: true
@@ -248,7 +248,7 @@ other = "目录"
   git push
   ```
 7. 查看效果
-  进入 github 仓库，选择 `Action` 选项，即可看到部署状态。
+  进入 github 仓库主页 `Action` 选项，即可看到部署状态，进入 `github workflow`，等待部署流程完成，点击链接进入博客。
   
 ## 参考配置
 
