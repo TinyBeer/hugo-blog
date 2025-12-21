@@ -249,6 +249,14 @@ other = "目录"
   ```
 7. 查看效果
   进入 github 仓库主页 `Action` 选项，即可看到部署状态，进入 `github workflow`，等待部署流程完成，点击链接进入博客。
+
+## 添加 LICENSE
+1. 进入仓库主页，点击右上角 `Add file` → `Create new file`。
+2. 在文件名输入框输入 LICENSE（全大写，GitHub 会自动识别并显示协议模板按钮）。
+3. 点击右侧 `Choose a license template`，在左侧列表选择协议（如 MIT、Apache 2.0），右侧会自动填充模板内容。
+4. 编辑模板中的占位符：替换 [year] 为当前年份（如 2025）、[fullname] 为你的姓名 / 组织名。
+5. 填写提交信息（如 `Add MIT License`），选择提交到主分支（main），点击 `Commit changes`。
+
   
 ## 参考配置
 
