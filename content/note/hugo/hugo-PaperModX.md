@@ -1,6 +1,6 @@
 ---
 date: "2025-12-21T16:10:27+08:00"
-title: "Hugo博客 -- PaperModX主题"
+title: "Hugo -- PaperModX主题"
 tags: ["Hugo", "PaperModX"]
 categories: "笔记"
 description: ""
