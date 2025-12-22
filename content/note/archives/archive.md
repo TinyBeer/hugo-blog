@@ -3,7 +3,7 @@ date: '2025-12-21T17:02:07+08:00'
 title: '笔记整理归档'
 tags: []
 categories: "笔记"
-description: ""
+# description: ""
 draft: flase
 searchHidden: false
 weight: 1
@@ -27,6 +27,10 @@ UseHugoToc: true
 ## 博客
 [Hugo -- 搭建一个静态博客](/note/hugo/quick_start/)  
 [Hugo -- PaperModX主题 ](/note/hugo/hugo-papermodx/)  
+
+## 容器化
+### Docker
+[Docker -- 实用技巧总结 Linux](/note/hugo/docker_trick/)
 
 <!-- ## Golang
 
