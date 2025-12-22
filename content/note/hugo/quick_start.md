@@ -72,6 +72,12 @@ hugo server
 - 主题(子模块)的维护
 
 ```bash
+## 一次性拉取主仓库和子模块
+# --depth=1：主仓库仅拉取最新的 1 次提交（浅层克隆）。
+# --shallow-submodules：让子模块也执行 depth=1 的浅层克隆。
+# --recurse-submodules：递归子模块（如需仅拉取第一层子模块，替换为 --submodule）。
+git clone --depth=1 --shallow-submodules --recurse-submodules <仓库地址>
+
 ## 手动克隆子模块 克隆项目时没有克隆子模块时使用
 git submodule update --init --recursive
 
