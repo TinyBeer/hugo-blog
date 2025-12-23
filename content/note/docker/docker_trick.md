@@ -58,6 +58,26 @@ sudo usermod -aG docker $USER
 newgrp docker
 ```
 
+## 清理 Docker 对象
+```bash
+# 查看docker资源存储空间占用情况
+docker system df
+# --filter "until=24h" 限制范围处在对应状态时间超过24h的对象
+# 清理未运行的容器
+docker container prune [--filter "until=24h"]
+# 清理所有虚悬镜像
+docker image prune [--filter "until=24h"]
+# 清理未使用的卷 Warn!!!
+docker volume prune [--filter "until=24h"]
+# 清理 
+# 1. 未运行的容器
+# 2. 未使用的网络
+# 3. 虚悬镜像
+# 4. 未使用的构建缓存
+# 5. --volumes 同时清理为使用的卷
+docker system prune [--volumes] [--filter "until=24h"]
+```
+
 ## 国内镜像加速
 ```bash
 sudo mkdir -p /etc/docker

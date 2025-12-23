@@ -30,7 +30,7 @@ UseHugoToc: true
 
 ## 容器化
 ### Docker
-[Docker -- 实用技巧总结 Linux](/note/hugo/docker_trick/)
+[Docker -- 实用技巧总结 Linux](/note/docker/docker_trick/)
 
 <!-- ## Golang
 
