@@ -4,7 +4,7 @@ title: '笔记整理归档'
 tags: []
 categories: "笔记"
 # description: ""
-draft: flase
+draft: true
 searchHidden: false
 weight: 1
 
@@ -31,6 +31,10 @@ UseHugoToc: true
 ## 容器化
 ### Docker
 [Docker -- 实用技巧总结 Linux](/hugo-blog/note/docker/docker_trick/)
+
+## Git
+[Git -- Angular 提交规范](/hugo-blog/note/git/git_commit/)
+
 
 <!-- ## Golang
 
