@@ -25,12 +25,12 @@ UseHugoToc: true
 
 
 ## 博客
-[Hugo -- 搭建一个静态博客](/note/hugo/quick_start/)  
-[Hugo -- PaperModX主题 ](/note/hugo/hugo-papermodx/)  
+[Hugo -- 搭建一个静态博客](/hugo-blog/note/hugo/quick_start/)  
+[Hugo -- PaperModX主题 ](/hugo-blog/note/hugo/hugo-papermodx/)  
 
 ## 容器化
 ### Docker
-[Docker -- 实用技巧总结 Linux](/note/docker/docker_trick/)
+[Docker -- 实用技巧总结 Linux](/hugo-blog/note/docker/docker_trick/)
 
 <!-- ## Golang
 

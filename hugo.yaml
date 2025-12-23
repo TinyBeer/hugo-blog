@@ -1,4 +1,4 @@
-baseURL: https://example.org/
+baseURL: https://tinybeer.github.io/hugo-blog
 # 博客语言
 languageCode: zh-cn
 defaultContentLanguage: zh-cn

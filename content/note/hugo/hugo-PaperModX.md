@@ -56,7 +56,7 @@ params:
   TocSide: "left" # or 'right'
 ```
 
-### InstantClick
+### 开启InstantClick
 
 `InstantClick` 是一个轻量的 JS 库，它的核心逻辑是提前加载用户可能会点击的链接对应的页面资源，当用户实际点击的时候，就可以直接展示已经加载好的内容，以此来降低页面跳转的延迟感，让博客的浏览体验更流畅。
 在站点配置的 `params` 中开启:
