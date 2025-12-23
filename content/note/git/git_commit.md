@@ -4,7 +4,7 @@ title: "Git -- Angular 提交规范"
 tags: ["git", "git_commit"]
 categories: "笔记"
 description: ""
-draft: true
+draft: false
 searchHidden: false
 
 showToc: true
