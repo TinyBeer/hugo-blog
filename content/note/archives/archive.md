@@ -4,7 +4,7 @@ title: '笔记整理归档'
 tags: []
 categories: "笔记"
 # description: ""
-draft: true
+draft: false
 searchHidden: false
 weight: 1
 
@@ -27,6 +27,15 @@ UseHugoToc: true
 ## 博客
 [Hugo -- 搭建一个静态博客](/hugo-blog/note/hugo/quick_start/)  
 [Hugo -- PaperModX主题 ](/hugo-blog/note/hugo/hugo-papermodx/)  
+
+## Golang
+### Orm
+#### Xorm
+[XORM -- 简单入门](note/golang/database/xorm)
+
+<!-- Todo Reverse 工具 单独开章节-->
+
+<!-- Todo 缓存 -->
 
 ## 容器化
 ### Docker

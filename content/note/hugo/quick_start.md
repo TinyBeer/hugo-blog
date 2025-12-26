@@ -217,56 +217,68 @@ other = "目录"
 此处列举而的并不详尽，如果遇到没有翻译的，大家可以自行手动添加。
 
 ## 部署
+
 ### github
+
 1. 关联远程仓库
-  ```bash
-  git remote add origin <远程仓库地址>
-  git branch -M main
-  git add .
-  git commit -m "first commit"
-  git push -u origin main
-  ```
+
+```bash
+git remote add origin <远程仓库地址>
+git branch -M main
+git add .
+git commit -m "first commit"
+git push -u origin main
+```
+
 2. (可选)在本地仓库添加 `.gitignore` 文件，忽略掉一个不必要的文件，文件内容如下：
-  ```text
-  .hugo_build.lock
-  public/
-  ```
+
+```text
+.hugo_build.lock
+public/
+```
+
 3. 修改 git 仓库构建部署源
-  将 `Setting > Pages > Build and deployment > Source` 配置由 `Deploy from a branch` 修改为 `Github Action`。
+   将 `Setting > Pages > Build and deployment > Source` 配置由 `Deploy from a branch` 修改为 `Github Action`。
 4. 修改图片缓存路径
-  在站点配置文件 `hugo.yaml` 中添加以下配置:
-  ```yaml
-  caches:
-    images:
-      dir: :cacheDir/images
-  ```
+   在站点配置文件 `hugo.yaml` 中添加以下配置:
+
+```yaml
+caches:
+  images:
+    dir: :cacheDir/images
+```
+
 5. 添加 git 工作流配置
-  添加配置文件 `.github/workflows/hugo.yaml`，可以执行一下命令：
-  ```bash
-  mkdir -p .github/workflows
-  touch .github/workflows/hugo.yaml#
-  ```
-  具体配置放在文末[传送门](#github工作流配置)
-6. 提交配置
-  ```bash
-  git add .
-  git commit -m "github workflow"
-  git push
-  ```
+   添加配置文件 `.github/workflows/hugo.yaml`，可以执行一下命令：
+
+```bash
+mkdir -p .github/workflows
+touch .github/workflows/hugo.yaml#
+```
+
+具体配置放在文末[传送门](#github工作流配置) 6. 提交配置
+
+```bash
+git add .
+git commit -m "github workflow"
+git push
+```
+
 7. 查看效果
-  进入 github 仓库主页 `Action` 选项，即可看到部署状态，进入 `github workflow`，等待部署流程完成，点击链接进入博客。
+   进入 github 仓库主页 `Action` 选项，即可看到部署状态，进入 `github workflow`，等待部署流程完成，点击链接进入博客。
 
 ## 添加 LICENSE
+
 1. 进入仓库主页，点击右上角 `Add file` → `Create new file`。
 2. 在文件名输入框输入 LICENSE（全大写，GitHub 会自动识别并显示协议模板按钮）。
 3. 点击右侧 `Choose a license template`，在左侧列表选择协议（如 MIT、Apache 2.0），右侧会自动填充模板内容。
 4. 编辑模板中的占位符：替换 [year] 为当前年份（如 2025）、[fullname] 为你的姓名 / 组织名。
 5. 填写提交信息（如 `Add MIT License`），选择提交到主分支（main），点击 `Commit changes`。
 
-  
 ## 参考配置
 
 ### hugo.yaml
+
 ```yaml
 baseURL: https://example.org/
 # 博客语言
@@ -476,7 +488,8 @@ UseHugoToc: true
 
 ```
 
-### Github工作流配置
+### Github 工作流配置
+
 ```yaml
 # .github/workflows/hugo.yaml
 name: Build and deploy
@@ -556,8 +569,7 @@ jobs:
         with:
           path: ${{ runner.temp }}/hugo_cache
           key: hugo-${{ github.run_id }}
-          restore-keys:
-            hugo-
+          restore-keys: hugo-
       - name: Build the site
         run: |
           hugo \
