@@ -29,9 +29,7 @@ UseHugoToc: true
 [Hugo -- PaperModX主题 ](/hugo-blog/note/hugo/hugo-papermodx/)  
 
 ## Golang
-### Orm
-#### Xorm
-[XORM -- 简单入门](note/golang/database/xorm)
+[XORM -- 简单入门](/hugo-blog/note/golang/database/xorm)
 
 <!-- Todo Reverse 工具 单独开章节-->
 
