@@ -1,10 +1,10 @@
 ---
 date: "2025-12-27T16:31:27+08:00"
-title: "XORM -- 缓存"
+title: "XORM -- 查询缓存"
 tags: ["Golang", "XORM", "Database", "ORM", "Cache"]
 categories: "笔记"
 description: ""
-draft: true
+draft: false
 searchHidden: false
 
 showToc: true
@@ -206,9 +206,108 @@ true <nil>
 
 ## 使用 Redis 进行缓存
 
- <!--TODO 第三方库 手动实现-->
+### 为指定对象实现缓存方案
+
+当前实现了内存存储的 `CacheStore` 接口 `MemoryStore` ，如果需要采用其它设备存储，可以实现 `CacheStore` 接口。
+
+这里简单演示以下使用 `Redis` 缓存 `User` 数据：
+
+1. 使用 `Redis` 实现 `CacheStore` 接口
+
+   ```golang
+   type RedisStore struct {
+   	client *redis.Client
+   }
+
+   func NewRedisStore() *RedisStore {
+   	client := redis.NewClient(&redis.Options{
+   		Addr:     "localhost:6379",
+   		Password: "",
+   		DB:       0,
+   		PoolSize: 20,
+   	})
+   	fmt.Println(client.Ping(context.Background()).Result())
+   	return &RedisStore{
+   		client: client,
+   	}
+   }
+
+   // Del implements caches.CacheStore.
+   func (r *RedisStore) Del(key string) error {
+   	return r.client.Del(context.TODO(), key).Err()
+   }
+
+   // Get implements caches.CacheStore.
+   func (r *RedisStore) Get(key string) (interface{}, error) {
+   	str, err := r.client.Get(context.TODO(), key).Result()
+   	if err != nil {
+   		return nil, err
+   	}
+
+   	u := new(User)
+   	err = json.Unmarshal([]byte(str), u)
+   	return u, err
+   }
+
+   // Put implements caches.CacheStore.
+   func (r *RedisStore) Put(key string, value interface{}) error {
+   	bs, _ := json.Marshal(value)
+   	return r.client.Set(context.TODO(), key, string(bs), 0).Err()
+   }
+
+   var _ caches.CacheStore = (*RedisStore)(nil)
+   ```
+
+2. 将本地缓存切换为刚才实现的 `CacheStore` `Redis` 缓存
+
+   ```golang
+   	cacher := caches.NewLRUCacher(NewRedisStore(), 1000)
+   ```
+
+3. 运行之前的代码后查看 `Redis` 中的数据
+
+   ```plaintext
+   127.0.0.1:6379> keys *
+   1) "SELECT `id` FROM `user` WHERE `id`=? LIMIT 1-[1]"
+   2) "SELECT `id` FROM `user` WHERE (id = ?) LIMIT 1-[1]"
+   3) "user-\x0f\x7f\x02\x01\x01\x02PK\x01\xff\x80\x00\x01\x10\x00\x00\x0e\xff\x80\x00\x01\x05int64\x04\x02\x00\x02"
+   127.0.0.1:6379> get "SELECT `id` FROM `user` WHERE `id`=? LIMIT 1-[1]"
+   "\"\\r\\ufffd\\ufffd\\u0002\\u0001\\u0002\\ufffd\\ufffd\\u0000\\u0001\\ufffd\\ufffd\\u0000\\u0000\\u000f\x7f\\u0002\\u0001\\u0001\\u0002PK\\u0001\\ufffd\\ufffd\\u0000\\u0001\\u0010\\u0000\\u0000\\u000f\\ufffd\\ufffd\\u0000\\u0001\\u0001\\u0005int64\\u0004\\u0002\\u0000\\u0002\""
+   127.0.0.1:6379> get "user-\x0f\x7f\x02\x01\x01\x02PK\x01\xff\x80\x00\x01\x10\x00\x00\x0e\xff\x80\x00\x01\x05int64\x04\x02\x00\x02"
+   "{\"Id\":1,\"Name\":\"tom\",\"Salt\":\"salt\",\"Age\":18,\"Passwd\":\"123456\",\"Created\":\"2025-12-26T21:05:43+08:00\",\"Updated\":\"2025-12-26T21:05:43+08:00\"}"
+   127.0.0.1:6379>
+
+   ```
+
+   可以看到缓存数据已经倒入的 `Redis` 中了。
+
+### 社区中的方案
+
+由于 `CacheStore` 接口中 `Get(key string) (interface{}, error)` 没有将返回数据的结构传入，无法实现通用的方案。
+于是社区中给出了另一种解决思路： `xorm-redis-cache`，直接实现 `Redis` 缓存 `Cacher`。
+
+> 安装 `xorm-redis-cache`
+> go get github.com/go-xorm/xorm-redis-cache
+
+```golang
+// // New a Redis Cacher, host as IP endpoint, i.e., localhost:6379, provide empty string or nil if Redis server doesn't
+// require AUTH command, defaultExpiration sets the expire duration for a key to live. Until redigo supports
+// sharding/clustering, only one host will be in hostList
+//
+//     engine.SetDefaultCacher(xormrediscache.NewRedisCacher("localhost:6379", "", xormrediscache.DEFAULT_EXPIRATION, engine.Logger))
+//
+// or set MapCacher
+//
+//     engine.MapCacher(&user, xormrediscache.NewRedisCacher("localhost:6379", "", xormrediscache.DEFAULT_EXPIRATION, engine.Logger))
+//
+// func NewRedisCacher(host string, password string, defaultExpiration time.Duration, logger core.ILogger) *RedisCacher
+
+// 使用本地redis  无密码  过期时间为 30s
+engine.SetDefaultCacher(xormRedisCache.NewRedisCacher("localhost:6379", "", time.Second*30, engine.Logger()))
+```
 
 ## 参考资料
 
 [Xorm 官方文档](https://xorm.io/)  
-[MySQL 官方文档](https://dev.mysql.com/)
+[MySQL 官方文档](https://dev.mysql.com/)  
+[xorm-redis-cache](https://github.com/go-xorm/xorm-redis-cache)
