@@ -1,7 +1,7 @@
 ---
 date: "2025-12-24T20:43:05+08:00"
 title: "XORM -- 简单入门"
-tags: ["Golang", "XORM", "Database"]
+tags: ["Golang", "XORM", "Database", "ORM"]
 categories: "笔记"
 # description: "Desc Text."
 draft: false
@@ -403,5 +403,5 @@ res, err := engine.Transaction(func(session *xorm.Session) (interface{}, error) 
 
 ## 参考资料
 
-[Xorm 官方文档](https://xorm.io/zh/docs/chapter-01/1.engine/)  
+[Xorm 官方文档](https://xorm.io/)  
 [Xorm API 文档](https://pkg.go.dev/xorm.io/xorm/)
