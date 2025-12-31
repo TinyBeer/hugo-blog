@@ -188,38 +188,40 @@ go run .
 `Go` 模板支持 `模板复用`，将常用的模板片段定义为独立模板，然后在主模板中引用，减少重复代码，提升可维护性。
 
 1. 基础模板引用：  
-	`{{template "name"}}`  
-	逻辑：执行名为 `name` 的模板 ( `{{define "name"}}` 定义的模板) ，且执行时传入的数据为 `nil`  
-	适用场景：无依赖外部数据的公共片段  
+   `{{template "name"}}`  
+   逻辑：执行名为 `name` 的模板 ( `{{define "name"}}` 定义的模板) ，且执行时传入的数据为 `nil`  
+   适用场景：无依赖外部数据的公共片段
 2. 带数据的模板引用：  
-	`{{template "name" pipeline}}`
-	逻辑：执行名为 `name` 的模板，且将 `pipeline` 的取值作为该模板的上下文数据  
+   `{{template "name" pipeline}}`
+   逻辑：执行名为 `name` 的模板，且将 `pipeline` 的取值作为该模板的上下文数据
 3. 块模板：  
    `{{block "name" pipeline}} T1 {{end}}`  
-	本质：语法糖，等价于 `先定义模板，再立即引用该模板`，分为两步：  
-	1. 隐式定义模板：`{{define "name"}} T1 {{end}}`  
-	2. 立即执行模板：`{{template "name" pipeline}}`  
-	核心用途：定义 `根模板`（如 HTML 基础骨架），后续可通过重新定义 `name` 模板，实现对根模板的自定义扩展`（类似「模板继承」的效果）`  
-	适用场景：统一页面布局，仅替换局部内容`（如所有页面共用头部和尾部，仅正文部分自定义）`
+   本质：语法糖，等价于 `先定义模板，再立即引用该模板`，分为两步：
+   1. 隐式定义模板：`{{define "name"}} T1 {{end}}`
+   2. 立即执行模板：`{{template "name" pipeline}}`  
+      核心用途：定义 `根模板`（如 HTML 基础骨架），后续可通过重新定义 `name` 模板，实现对根模板的自定义扩展`（类似「模板继承」的效果）`  
+      适用场景：统一页面布局，仅替换局部内容`（如所有页面共用头部和尾部，仅正文部分自定义）`
 
 ### 上下文切换动作
+
 ```tpl
 {{with pipeline}} T1 {{end}}
 {{with pipeline}} T1 {{else}} T0 {{end}}
 {{with pipeline}} T1 {{else with pipeline}} T0 {{end}}
 ```
+
 `{{with}}` 动作的核心作用是临时切换模板的上下文根数据，简化对深层数据的访问，且支持分支判断（基于数据是否为零值）。
 
 1. 基础上下文切换：  
    `{{with pipeline}} T1 {{end}}`  
-	逻辑：如果 `pipeline` 的值为零值，不输出任何内容；如果 pipeline 的值非零值，将上下文根数据临时设为 `pipeline` 的值，在 `T1` 模板段内，所有 `.XXX` 均基于该临时数据访问，退出 `{{end}}` 后，恢复为原来的上下文数据
+   逻辑：如果 `pipeline` 的值为零值，不输出任何内容；如果 pipeline 的值非零值，将上下文根数据临时设为 `pipeline` 的值，在 `T1` 模板段内，所有 `.XXX` 均基于该临时数据访问，退出 `{{end}}` 后，恢复为原来的上下文数据
 2. 带空分支的上下文切换：  
    `{{with pipeline}} T1 {{else}} T0 {{end}}`  
-	逻辑：如果 `pipeline` 的值非零值，切换上下文并执行 `T1`；如果 `pipeline` 的值为空，不修改上下文，执行 `T0`
+   逻辑：如果 `pipeline` 的值非零值，切换上下文并执行 `T1`；如果 `pipeline` 的值为空，不修改上下文，执行 `T0`
 3. 多分支上下文切换：  
    `{{with pipeline}} T1 {{else with pipeline}} T0 {{end}}`  
-	逻辑：简化 `{{with}}` 的嵌套写法，等价于 `{{with pipeline}} T1 {{else}}{{with pipeline}} T0 {{end}}{{end}}`  
-	特点：按顺序判断多个 `pipeline`，第一个非零的 `pipeline` 会切换上下文并执行对应模板段，后续分支不再判断
+   逻辑：简化 `{{with}}` 的嵌套写法，等价于 `{{with pipeline}} T1 {{else}}{{with pipeline}} T0 {{end}}{{end}}`  
+   特点：按顺序判断多个 `pipeline`，第一个非零的 `pipeline` 会切换上下文并执行对应模板段，后续分支不再判断
 
 ### Arguments 变量
 
