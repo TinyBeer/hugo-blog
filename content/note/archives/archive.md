@@ -33,7 +33,7 @@ UseHugoToc: true
 [XORM -- 查询缓存](/hugo-blog/note/golang/database/xorm_cache)
 <!-- Todo Reverse 工具 单独开章节-->
 
-<!-- Todo 缓存 -->
+[Golang -- Template 模板渲染](/hugo-blog/note/golang/basic/template)
 
 ## 容器化
 ### Docker
