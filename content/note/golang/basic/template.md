@@ -32,7 +32,7 @@ UseHugoToc: true
 
 下面是一个简单的例子：
 
-```golnag
+```golang
 package main
 
 import (
@@ -73,7 +73,7 @@ go run .
 > 分隔符和 `-` 之间不能有空格，`-` 和 `Action` 中的内容需要有空格分割。  
 > 反例： `{{-3}}` 会被渲染为 `-3`，而不是移除左侧空格后的 `3`。
 
-```tpl
+```go-template
 "{{23 -}} < {{- 45}}"
 ```
 
@@ -87,7 +87,7 @@ go run .
 
 ### 注释动作
 
-```tpl
+```go-template
 {{/* 注释内容 */}}
 {{- /* 注释内容 */ -}}
 ```
@@ -95,7 +95,7 @@ go run .
 1. 基础注释：
    语法：`/*` 和 `*/` 是注释界定符
 
-   ```tpl
+   ```go-template
    {{/* 注释内容 */}}
    ```
 
@@ -104,7 +104,7 @@ go run .
 2. 去除空格的注释
    语法：在基础注释的 `{{` 后加 `-`、`}}` 前加 `-`。
 
-   ```tpl
+   ```go-template
    {{- /* 注释内容 */ -}}
    ```
 
@@ -115,7 +115,7 @@ go run .
 
 ### 管道输出动作
 
-```tpl
+```go-template
 {{pipeline}}
 {{.Age}}
 {{.Name | upper}}
@@ -131,7 +131,7 @@ go run .
 
 ### 条件判断动作
 
-```tpl
+```go-template
 {{if pipeline}} T1 {{end}}
 {{if pipeline}} T1 {{else}} T0 {{end}}
 {{if pipeline}} T1 {{else if pipeline}} T0 {{end}}
@@ -153,7 +153,7 @@ go run .
 
 ### 循环遍历动作
 
-```tpl
+```go-template
 {{range pipeline}} T1 {{end}}
 {{range pipeline}} T1 {{else}} T0 {{end}}
 
@@ -179,7 +179,7 @@ go run .
 
 ### 模板复用动作
 
-```tpl
+```go-template
 {{template "name"}}
 {{template "name" pipeline}}
 {{block "name" pipeline}} T1 {{end}}
@@ -204,7 +204,7 @@ go run .
 
 ### 上下文切换动作
 
-```tpl
+```go-template
 {{with pipeline}} T1 {{end}}
 {{with pipeline}} T1 {{else}} T0 {{end}}
 {{with pipeline}} T1 {{else with pipeline}} T0 {{end}}
@@ -236,7 +236,7 @@ go run .
    以 `$`开始，后可接字母数字组成的字符串。单独的 `$` 也是合法的。
 5. 结构体的字段名
    以 `.` 开头，被去值的数据需是一个结构体。支持链式取值，也可以从一个变量中取值，如：
-   ```tpl
+   ```go-template
    .Field
    .Field1.Field2
    $x.Field1.Field2
@@ -244,7 +244,7 @@ go run .
    注意：结构体字段名需要为大写字母开头，才可以进行取值。
 6. `Map` 的 `Key`
    以 `.` 开头，被去值的数据需是一个 `Map`。同样持链式取值，也可以从一个变量中取值，如：
-   ```tpl
+   ```go-template
    .Key
    .Field1.Key1.Field2.Key2
    $x.key1.key2
@@ -258,7 +258,7 @@ go run .
 
    方法的使用也同样灵活，一下形式都是可以的：
 
-   ```tpl
+   ```go-template
    .Method
    .Field1.Key1.Method1.Field2.Key2.Method2
    $x.Method1.Field
@@ -271,7 +271,7 @@ go run .
 
    括号的作用是进行分组。它的结果同样可以进行结构体字段取值、`Map` 键值映射。
 
-   ```tpl
+   ```go-template
    print (.F1 arg1) (.F2 arg2) (.StructValuedMethod "arg").Field
    ```
 
@@ -287,19 +287,19 @@ go run .
 
 1. 变量的初始化
 
-   ```tpl
+   ```go-template
    $variable := pipeline
    ```
 
 2. 变量的赋值
 
-   ```tpl
+   ```go-template
    $variable = pipeline
    ```
 
 3. 在循环遍历(`range`)动作中使用变量
 
-   ```tpl
+   ```go-template
    range $index, $element := pipeline
    ```
 
@@ -476,7 +476,7 @@ parsedTmpl.Funcs(template.FuncMap{
 在解析模板时，可以定义另一个模板并将其与正在解析的模板相关联。模板定义必须出现在模板的顶层，就像 Go 程序中的全局变量一样。  
 用 `define` 和 `end` 操作围绕每个模板声明。
 
-```tpl
+```go-template
 {{define "T1"}}ONE{{end}}
 {{define "T2"}}TWO{{end}}
 {{define "T3"}}{{template "T1"}} {{template "T2"}}{{end}}
