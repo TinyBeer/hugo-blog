@@ -6,7 +6,7 @@ defaultContentLanguageInSubdir: false
 # 博客名称
 title: "🍺Let's Beer!!"
 # 主题
-theme: ["PaperModX","PaperMod"]
+theme: ["PaperModXP", "PaperMod"]
 # 每页多少文章
 # 官方文档中使用的 paginate 已经弃用
 paginate.pagerSize: 5
@@ -64,12 +64,13 @@ params:
   disableScrollToTop: false
   hideFooter: false
   # 目录位置
-  TocSide: 'right'  # or 'left'
+  TocSide: "right" # or 'left'
 
   EnableInstantClick: true
 
   languageAltTitle: “English”
   displayFullLangName: true
+  disablePostNavLink: true
 
   assets:
     # disableHLJS: true # to disable highlight.js
@@ -143,6 +144,10 @@ params:
     limit: 10 # refer: https://www.fusejs.io/api/methods.html#search
     keys: ["title", "permalink", "summary", "content"]
 
+  defaultCommentSystems:
+    giscus: true
+  commentSystems:
+    giscus: true
 
 menu:
   main:

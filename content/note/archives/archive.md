@@ -1,6 +1,6 @@
 ---
-date: '2025-12-21T17:02:07+08:00'
-title: '笔记整理归档'
+date: "2025-12-21T17:02:07+08:00"
+title: "笔记整理归档"
 tags: []
 categories: "笔记"
 # description: ""
@@ -21,27 +21,33 @@ UseHugoToc: true
 ---
 
 笔记 文章 整理归档用
+
 <!--more-->
 
-
 ## 博客
+
 [Hugo -- 搭建一个静态博客](/hugo-blog/note/hugo/quick_start/)  
-[Hugo -- PaperModX主题 ](/hugo-blog/note/hugo/hugo-papermodx/)  
+[Hugo -- PaperModX 主题 ](/hugo-blog/note/hugo/hugo-papermodx/)  
+[Hugo -- giscus 评论系统 ](/hugo-blog/note/hugo/hugo-comment/)
 
 ## Golang
+
 [XORM -- 简单入门](/hugo-blog/note/golang/database/xorm)  
 [XORM -- 查询缓存](/hugo-blog/note/golang/database/xorm_cache)
+
 <!-- Todo Reverse 工具 单独开章节-->
 
 [Golang -- Template 模板渲染](/hugo-blog/note/golang/basic/template)
 
 ## 容器化
+
 ### Docker
+
 [Docker -- 实用技巧总结 Linux](/hugo-blog/note/docker/docker_trick/)
 
 ## Git
-[Git -- Angular 提交规范](/hugo-blog/note/git/git_commit/)
 
+[Git -- Angular 提交规范](/hugo-blog/note/git/git_commit/)
 
 <!-- ## Golang
 
