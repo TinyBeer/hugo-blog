@@ -45,8 +45,12 @@ UseHugoToc: true
 
    ```bash
    # 添加子模块
+   git submodule add <Fork的仓库地址> themes/<子模块文件夹名>
+   # 或
    git submodule add --depth=1 <Fork的仓库地址> themes/<子模块文件夹名>
    ```
+
+   > 注意：如果需要在主仓库编辑子仓库内容不要添加 `--depth=1`
 
    考虑到后续可能需要移除一些不想要的主题（子模块），这里介绍一下如何移除子模块：
 
@@ -182,15 +186,48 @@ UseHugoToc: true
 {{- end -}}
 ```
 
-然后在 `layouts/partials` 目录下创建一个 `giscus.html` 文件夹，将评论区脚本拷贝进去。  
-最后在站点配置中的 `Params` 中添加评论系统配置即可：
+然后在 `layouts/partials` 目录下创建一个 `giscus.html` 文件夹，将评论区脚本拷贝进去。这里为了方便修改配置进行了参数提炼：
+
+```go-html-template
+<script src="https://giscus.app/client.js"
+        data-repo="{{- .ctx.repo -}}"
+        data-repo-id="{{- .ctx.repo_id -}}"
+        data-category="{{- .ctx.category -}}"
+        data-category-id="{{- .ctx.category_id -}}"
+        data-mapping="{{- .ctx.mapping -}}"
+        data-strict="{{- .ctx.strict -}}"
+        data-reactions-enabled="{{- .ctx.reactions_enabled -}}"
+        data-emit-metadata="{{- .ctx.emit_metadata -}}"
+        data-input-position="{{- .ctx.position -}}"
+        data-theme="{{- .ctx.theme -}}"
+        data-lang="{{- .ctx.lang -}}"
+        data-loading="{{- .ctx.loading -}}"
+        crossorigin="{{- .ctx.crossorigin -}}"
+        async>
+</script>
+```
+
+最后在站点配置中的 `Params` 中添加评论系统配置即可，这里的参数可根据需求填充和修改：
 
 ```yml
 params:
   defaultCommentSystems:
-      giscus: true
-    commentSystems:
-      giscus:
+    giscus: true
+  commentSystems:
+    giscus: 
+      repo: "[在此输入仓库]"
+      repo_id: "[在此输入仓库 ID]"
+      category: "[在此输入分类名]"
+      category_id: "[在此输入分类 ID]"
+      mapping: "pathname"
+      position: "bottom"
+      theme: "dark_dimmed"
+      lang: "en"
+      loading: "lazy"
+      crossorigin: "anonymous"
+      strict: "0"
+      reactions_enabled: "1"
+      emit_metadata: "0"
 ```
 
 ## 页面优化

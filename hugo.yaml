@@ -6,7 +6,7 @@ defaultContentLanguageInSubdir: false
 # 博客名称
 title: "🍺Let's Beer!!"
 # 主题
-theme: ["PaperModXP", "PaperMod"]
+theme: ["PaperModXP", "PaperModX", "PaperMod"]
 # 每页多少文章
 # 官方文档中使用的 paginate 已经弃用
 paginate.pagerSize: 5
@@ -147,7 +147,20 @@ params:
   defaultCommentSystems:
     giscus: true
   commentSystems:
-    giscus: true
+    giscus: 
+      repo: "TinyBeer/hugo-blog"
+      repo_id: "R_kgDOQse4ZQ"
+      category: "Announcements"
+      category_id: "DIC_kwDOQse4Zc4C0Jfi"
+      mapping: "pathname"
+      position: "bottom"
+      theme: "dark_dimmed"
+      lang: "en"
+      loading: "lazy"
+      crossorigin: "anonymous"
+      strict: "0"
+      reactions_enabled: "1"
+      emit_metadata: "0"
 
 menu:
   main:
