@@ -47,6 +47,7 @@ UseHugoToc: true
 
 ## Git
 
+[Git -- 基本操作](/hugo-blog/note/git/git_basic/)  
 [Git -- Angular 提交规范](/hugo-blog/note/git/git_commit/)
 
 <!-- ## Golang
