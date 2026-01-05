@@ -147,18 +147,18 @@ mysql>
 
 ## MySQL 命令语法描述规则
 
-在介绍基础操作语法前，这里先对官方文档中的语法描述进行一些说明，主要是对一些符号代表意义的解释。
+在介绍基础操作语法前，先对后续会使用到的语法描述符号进行说明。
 
-| 符号                           | 含义                                                              | 举例                                                                            |
-| :----------------------------- | :---------------------------------------------------------------- | :------------------------------------------------------------------------------ |
-| `[ ]（方括号）`                | 包裹的内容是 可选的（可写可不写，不影响语法合法性）               | `[IF NOT EXISTS]`                                                               |
-| `{ }（大括号）`                | 包裹的内容是 必选的（必须指定其中内容），通常配合 `\|` 使用       | `{DATABASE \| SCHEMA}`                                                          |
-| `\|（竖线）`                   | 表示 二选一 / 多选一（互斥选项，只能从多个选项中选择一个）        | `{DATABASE \| SCHEMA}`                                                          |
-| `...（省略号）`                | 表示前面的语法单元 可以重复多次（支持批量配置，用逗号或空格分隔） | `[create_option] ...`                                                           |
-| `UPPERCASE（大写单词）`        | MySQL 关键字（如 CREATE、DATABASE、ENGINE，语法固定部分）         | `CREATE DATABASE`                                                               |
-| `lowercase（小写单词 / 斜体）` | 用户自定义内容（如 数据库名、字符集名称，需替换为实际业务值）     | `CREATE {DATABASE\|SCHEMA} [IF NOT EXISTS] db_name`                             |
-| `( )（圆括号）`                | 用于 分组（将多个语法单元视为一个整体，配合 `[]...` 使用）        | `ALTER DATABASE 数据库名 [DEFAULT (CHARACTER SET 字符集 \| COLLATE 排序规则)];` |
-| `=（等号）`                    | 表示 赋值 / 指定（可选写，多数场景下省略等号不影响语法生效）      | `ENGINE [=] InnoDB;`                                                            |
+| 符号                           | 含义                                                          | 举例                                                    |
+| :----------------------------- | :------------------------------------------------------------ | :------------------------------------------------------ |
+| `[ ]（方括号）`                | 包裹的内容是 可选的（写与不写都不影响语法合法性）             | `[IF NOT EXISTS]`                                       |
+| `{ }（大括号）`                | 包裹的内容是 必选的，通常配合 `\|` 使用                       | `{DATABASE \| SCHEMA}`                                  |
+| `\|（竖线）`                   | 表示 选择其中一个（互斥选项，只能从多个选项中选择一个）       | `{DATABASE \| SCHEMA}`                                  |
+| `...（省略号）`                | 表示前面的语法单元 可以重复多次                               | `[create_option] ...`                                   |
+| `UPPERCASE（大写单词）`        | MySQL 关键字（大小写仅作为区分标记，使用时可以小写）          | `CREATE`、` DATABASE`                                   |
+| `lowercase（小写单词 / 斜体）` | 用户自定义内容（如 数据库名、字符集名称，需替换为实际业务值） | `db_name`                                               |
+| `( )（圆括号）`                | 用于 分组（将多个语法单元视为一个整体，配合 `[]...` 使用）    | `[DEFAULT (CHARACTER SET 字符集 \| COLLATE 排序规则)];` |
+| `=（等号）`                    | 表示 赋值 / 指定（可选写，多数场景下省略等号不影响语法生效）  | `ENGINE [=] InnoDB;`                                    |
 
 ## 数据库操作
 
@@ -167,18 +167,11 @@ mysql>
 语法：
 
 ```mysql
-CREATE {DATABASE | SCHEMA} [IF NOT EXISTS] db_name
-    [create_option] ...
-
-create_option: [DEFAULT] {
-    CHARACTER SET [=] charset_name
-  | COLLATE [=] collation_name
-}
+CREATE DATABASE [IF NOT EXISTS] db_name [HARACTER SET utf8mb4] [COLLATE utf8mb4_general_ci];
 ```
 
 解释：
 
-- `{DATABASE | SCHEMA}` 表示任选其中一个，即 `CREATE DATABASE ...` 等价于 `CREATE SCHEMA ...`
 - `[IF NOT EXISITS]` 表示 `IF NOT EXISTS` 是可选的，加上表示只有在不存在名为同名的数据库时才进行创建，这样可以避免重复创建产生的报错
 - `db_name` 表示想要创建的数据库名称，需要替换为所需要的数据库名
 - `[create_option]` 表示创建参数，主要有两个：
@@ -200,11 +193,12 @@ CREATE DATABASE mydatabase CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
 语法：
 
 ```mysql
-SHOW {DATABASES | SCHEMAS}
-    [LIKE 'pattern' | WHERE expr]
+SHOW DATABASES [LIKE 'pattern' | WHERE expr];
 ```
 
 解释：
+
+通常一个 `MySQL` 中的数据库不会太多，使用 `SHOW DATABASES;` 列出所有数据库可以满足绝大部分使用需求。如果的确需要更精确的查找，可以使用参数设置匹配模式：
 
 - `LIKE 'pattern'` 表示模糊匹配，用于按「通配符规则」模糊查询数据库名，支持两个核心通配符：
   1. `%`：匹配任意长度的任意字符（包括空字符）；
@@ -235,7 +229,7 @@ SHOW DATABASES WHERE LENGTH(Schema_name) > 5;
 语法：
 
 ```mysql
-DROP {DATABASE | SCHEMA} [IF EXISTS] db_name
+DROP DATABASE [IF EXISTS] db_name;
 ```
 
 解释：
@@ -260,6 +254,224 @@ USE db_name;
 
 解释:  
 在 `MySQL` 中，要选择要使用的数据库，在后续的操作中都会在选中的数据库中执行。
+
+## 表操作
+
+### 创建表
+
+语法：  
+由于创建表的完整语法比较复杂，就不进行详细介绍了。这里提供一个基础的语法描述：
+
+```mysql
+CREATE TABLE [IF NOT EXISTS] tbl_name
+    (create_definition,...)
+    [table_options];
+```
+
+解释：
+
+- `(create_definition,...)` 主要是字段、索引等信息
+- `[table_options]` 是表相关选项，包括引擎、字符集等多设定
+
+示例：
+
+```mysql
+CREATE TABLE users (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL,
+    birthdate DATE,
+    is_active BOOLEAN DEFAULT TRUE
+) ENGINE=InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;;
+```
+
+- id: 用户 id，整数类型，自增长，作为主键。
+- username: 用户名，变长字符串，不允许为空。
+- email: 用户邮箱，变长字符串，不允许为空。
+- birthdate: 用户的生日，日期类型。
+- is_active: 用户是否已经激活，布尔类型，默认值为 true。
+- ENGINE： 设置存储引擎为 InnoDB
+- CHARSET： 设置编码为 utf8mb4
+- COLLATE： 设置字符集排序方式
+
+示例中仅使用了部分数据类型，更全面的数据类型说明可以参考 [数据类型](#数据类型)
+
+### 列出表
+
+语法：
+
+```mysql
+SHOW TABLES
+    [{FROM | IN} db_name]
+    [LIKE 'pattern' | WHERE expr]
+```
+
+解释：
+
+- `[{FROM | IN} db_name]` 指明那个数据库，如果不指明则列出当前数据库的表信息
+- 其他语法可以类比 [列出数据库](#列出数据库)
+
+### 删除表
+
+语法：
+
+```yaml
+DROP TABLE [IF EXISTS]
+tbl_name [, tbl_name] ...;
+```
+
+解释：
+
+- `[IF EXISTS]` 如果表存在才执行删除操作，避免由于表不存在而发生报错。
+- `tbl_name [, tbl_name] ...` 同时删除多长表时，使用 `,` 分隔表名。
+
+示例：
+
+```mysql
+-- 删除表，如果存在的话
+DROP TABLE IF EXISTS mytable;
+
+-- 直接删除表，不检查是否存在
+DROP TABLE mytable, mytalbe2;
+
+```
+
+## 数据操作
+
+### 插入数据
+
+语法：
+
+```mysql
+INSERT INTO tbl_name
+    [(col_name [, col_name] ...)]
+    VALUES  (value_list) [, (value_list)] ...;
+```
+
+解释：
+
+- `[(col_name [, col_name] ...)]` 插入数据时如果不希望为所有列指定值，则需指定哪些列赋指定值。
+- ` (value_list) [, (value_list)] ...` 要插入的每一条数据中指定的列值，使用 `()` 进行分组，如果一次需要插入多条数据，使用 `,` 分隔。
+  示例：
+
+```mysql
+-- 单条数据插入 仅插入指定列 --
+INSERT INTO users (username, email, birthdate, is_active) VALUES ('test', 'test@runoob.com', '1990-01-01', true);
+
+-- 单条数据插入 插入所有列时，省略列名 --
+INSERT INTO users VALUES ('test', 'test@runoob.com', '1990-01-01', true);
+
+-- 批量数据插入 --
+-- 插入所有列也可以省略列名--
+INSERT INTO users (username, email, birthdate, is_active)
+VALUES
+    ('test1', 'test1@runoob.com', '1985-07-10', true),
+    ('test2', 'test2@runoob.com', '1988-11-25', false),
+    ('test3', 'test3@runoob.com', '1993-05-03', true);
+```
+
+### 查询数据
+
+对于数据库的查询，有一套非常复杂的语法机制，这里只介绍最常用的条件查询。当然，示例中会列出了一些常用定式。
+
+语法：
+
+```mysql
+SELECT {* | (col_name [, col_name] ...)}
+    FROM table_name
+    [WHERE condition]
+    [ORDER BY col_name [ASC | DESC]]
+    [LIMIT number];
+```
+
+解释：
+
+- `{* | (col_name [, col_name] ...)}` 指定返回哪些列，如果需要返回所有列则使用 `*`
+- `[WHERE condition]` 筛选满足条件的数据，常用的条件格式为 `col_name = value [AND col_name = value] ...`
+- `[ORDER BY col_name [ASC | DESC]]` 数据排序规则，依据哪些字段排序，排序规则是升序还是降序。
+- `[LIMIT number]` 限制返回值数量。
+
+示例：
+
+```mysql
+-- 选择所有列的所有行
+SELECT * FROM users;
+
+-- 选择特定列的所有行
+SELECT username, email FROM users;
+
+-- 添加 WHERE 子句，选择满足条件的行
+SELECT * FROM users WHERE is_active = TRUE;
+
+-- 添加 ORDER BY 子句，按照某列的升序排序
+SELECT * FROM users ORDER BY birthdate;
+
+-- 添加 ORDER BY 子句，按照某列的降序排序
+SELECT * FROM users ORDER BY birthdate DESC;
+
+-- 添加 LIMIT 子句，限制返回的行数
+SELECT * FROM users LIMIT 10;
+
+-- 使用 AND 运算符和通配符
+SELECT * FROM users WHERE username LIKE 'j%' AND is_active = TRUE;
+
+-- 使用 OR 运算符
+SELECT * FROM users WHERE is_active = TRUE OR birthdate < '1990-01-01';
+
+-- 使用 IN 子句
+SELECT * FROM users WHERE birthdate IN ('1990-01-01', '1992-03-15', '1993-05-03');
+```
+
+### 删除数据
+
+语法：
+
+```mysql
+DELETE FROM tbl_name
+    [WHERE where_condition]
+```
+
+解释：
+
+删除数据在生产环境不是一个常用的操作，相比于直接删除数据，我们会更多的使用软删除。  
+即便是需要删除数据 `DELETE FROM tbl_name [WHERE where_condition]` 也可以满足大部分需求。
+
+示例：
+
+```mysql
+-- 删除 id 为 123456 的用户表数据
+DELETE FROM user WHERE id = 123456;
+```
+
+### 更新数据
+
+语法：
+
+```mysql
+UPDATE table_name
+    SET col_name = value [, vol_name = value] ...
+    [WHERE where_condition]
+```
+
+解释：  
+
+
+- `table_name` 是你要更新数据的表的名称。
+- `col_name = value [, vol_name = value]...` 是你要更新的列以及要改为的值。
+- `WHERE condition` 是一个可选的子句，用于指定更新的行。如果省略 `WHERE `子句，将更新表中的所有行。
+
+示例：
+
+```mysql
+-- 更新单个列的值
+UPDATE employees SET salary = 60000 WHERE employee_id = 101;
+
+-- 更新多个列的值
+UPDATE orders SET status = 'Shipped', ship_date = '2023-03-01' WHERE order_id = 1001;
+
+-- 使用表达式更新值
+UPDATE products SET price = price * 1.1 WHERE category = 'Electronics';
+```
 
 ## 数据类型
 
@@ -304,312 +516,6 @@ USE db_name;
 | LONGTEXT   | 0-4 294 967 295 | 极大文本数据                    |
 
 > 注意：char(n) 和 varchar(n) 中括号中 n 代表字符的个数，并不代表字节个数，比如 CHAR(30) 就可以存储 30 个字符。
-
-## 表操作
-
-### 创建表
-
-语法：  
-由于创建表的完整语法比较复杂，就不进行详细介绍了。这里提供一个基础的语法描述：
-
-```mysql
-CREATE [TEMPORARY] TABLE [IF NOT EXISTS] tbl_name
-    (create_definition,...)
-    [table_options]
-    [partition_options]
-```
-
-解释：
-
-- `(create_definition,...)` 主要是字段、索引等信息
-- `[table_options]` 是表相关选项，包括引擎、字符集等多设定
-- `[partition_options]` 是分片信息
-
-示例：
-
-```mysql
-CREATE TABLE users (
-    id INT AUTO_INCREMENT PRIMARY KEY,
-    username VARCHAR(50) NOT NULL,
-    email VARCHAR(100) NOT NULL,
-    birthdate DATE,
-    is_active BOOLEAN DEFAULT TRUE
-) ENGINE=InnoDB DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;;
-```
-
-- id: 用户 id，整数类型，自增长，作为主键。
-- username: 用户名，变长字符串，不允许为空。
-- email: 用户邮箱，变长字符串，不允许为空。
-- birthdate: 用户的生日，日期类型。
-- is_active: 用户是否已经激活，布尔类型，默认值为 true。
-- ENGINE： 设置存储引擎为 InnoDB
-- CHARSET： 设置编码为 utf8mb4
-- COLLATE： 设置字符集排序方式
-
-### 列出表
-
-语法：
-
-```mysql
-SHOW [FULL] TABLES
-    [{FROM | IN} db_name]
-    [LIKE 'pattern' | WHERE expr]
-```
-
-解释：
-
-- `[{FROM | IN} db_name]` 指明那个数据库，如果不指明则列出当前数据库的表信息
-- 其他语法可以类比 [列出数据库](#列出数据库)
-
-### 删除表
-
-语法：
-
-```yaml
-DROP [TEMPORARY] TABLE [IF EXISTS]
-tbl_name [, tbl_name] ...
-[RESTRICT | CASCADE]
-```
-
-解释：
-
-- `RESTRICT` 和 `CASCADE` 这两个关键字不产生任何实际作用，支持它们只是为了更方便地从其他数据库系统迁移代码。
-
-示例：
-
-```mysql
--- 删除表，如果存在的话
-DROP TABLE IF EXISTS mytable;
-
--- 直接删除表，不检查是否存在
-DROP TABLE mytable;
-
-```
-
-## 数据操作
-
-### 插入数据
-
-语法：
-
-```mysql
-INSERT [LOW_PRIORITY | DELAYED | HIGH_PRIORITY] [IGNORE]
-    [INTO] tbl_name
-    [PARTITION (partition_name [, partition_name] ...)]
-    [(col_name [, col_name] ...)]
-    {VALUES | VALUE} (value_list) [, (value_list)] ...
-    [ON DUPLICATE KEY UPDATE assignment_list]
-
-INSERT [LOW_PRIORITY | DELAYED | HIGH_PRIORITY] [IGNORE]
-    [INTO] tbl_name
-    [PARTITION (partition_name [, partition_name] ...)]
-    SET assignment_list
-    [ON DUPLICATE KEY UPDATE assignment_list]
-
-INSERT [LOW_PRIORITY | HIGH_PRIORITY] [IGNORE]
-    [INTO] tbl_name
-    [PARTITION (partition_name [, partition_name] ...)]
-    [(col_name [, col_name] ...)]
-    SELECT ...
-    [ON DUPLICATE KEY UPDATE assignment_list]
-
-value:
-    {expr | DEFAULT}
-
-value_list:
-    value [, value] ...
-
-assignment:
-    col_name = value
-
-assignment_list:
-    assignment [, assignment] ...
-```
-
-解释：  
-数据插入语法也相对繁杂，这里不做过多解释，示例中会列出一些常用的定式供参考。  
-示例：
-
-```mysql
--- 单条数据插入 仅插入指定列 --
-INSERT INTO users (username, email, birthdate, is_active) VALUES ('test', 'test@runoob.com', '1990-01-01', true);
-
--- 单条数据插入 插入所有列时，省略列名 --
-INSERT INTO users VALUES ('test', 'test@runoob.com', '1990-01-01', true);
-
--- 批量数据插入 --
--- 插入所有列也可以省略列名--
-INSERT INTO users (username, email, birthdate, is_active)
-VALUES
-    ('test1', 'test1@runoob.com', '1985-07-10', true),
-    ('test2', 'test2@runoob.com', '1988-11-25', false),
-    ('test3', 'test3@runoob.com', '1993-05-03', true);
-```
-
-### 查询数据
-
-语法：
-
-```mysql
-SELECT
-    [ALL | DISTINCT | DISTINCTROW ]
-    [HIGH_PRIORITY]
-    [STRAIGHT_JOIN]
-    [SQL_SMALL_RESULT] [SQL_BIG_RESULT] [SQL_BUFFER_RESULT]
-    [SQL_CACHE | SQL_NO_CACHE] [SQL_CALC_FOUND_ROWS]
-    select_expr [, select_expr] ...
-    [into_option]
-    [FROM table_references
-      [PARTITION partition_list]]
-    [WHERE where_condition]
-    [GROUP BY {col_name | expr | position}
-      [ASC | DESC], ... [WITH ROLLUP]]
-    [HAVING where_condition]
-    [ORDER BY {col_name | expr | position}
-      [ASC | DESC], ...]
-    [LIMIT {[offset,] row_count | row_count OFFSET offset}]
-    [PROCEDURE procedure_name(argument_list)]
-    [into_option]
-    [FOR UPDATE | LOCK IN SHARE MODE]
-
-into_option: {
-    INTO OUTFILE 'file_name'
-        [CHARACTER SET charset_name]
-        export_options
-  | INTO DUMPFILE 'file_name'
-  | INTO var_name [, var_name] ...
-}
-
-export_options:
-    [{FIELDS | COLUMNS}
-        [TERMINATED BY 'string']
-        [[OPTIONALLY] ENCLOSED BY 'char']
-        [ESCAPED BY 'char']
-    ]
-    [LINES
-        [STARTING BY 'string']
-        [TERMINATED BY 'string']
-    ]
-```
-
-解释：  
-数据查询语法也相对繁杂，这里不做过多解释,比较常用的简略语法：
-
-```mysql
-SELECT column1, column2, ...
-FROM table_name
-[WHERE condition]
-[ORDER BY column_name [ASC | DESC]]
-[LIMIT number];
-```
-
-当然，示例中同样会列出一些常用的定式供参考。
-示例：
-
-```mysql
--- 选择所有列的所有行
-SELECT * FROM users;
-
--- 选择特定列的所有行
-SELECT username, email FROM users;
-
--- 添加 WHERE 子句，选择满足条件的行
-SELECT * FROM users WHERE is_active = TRUE;
-
--- 添加 ORDER BY 子句，按照某列的升序排序
-SELECT * FROM users ORDER BY birthdate;
-
--- 添加 ORDER BY 子句，按照某列的降序排序
-SELECT * FROM users ORDER BY birthdate DESC;
-
--- 添加 LIMIT 子句，限制返回的行数
-SELECT * FROM users LIMIT 10;
-
--- 使用 AND 运算符和通配符
-SELECT * FROM users WHERE username LIKE 'j%' AND is_active = TRUE;
-
--- 使用 OR 运算符
-SELECT * FROM users WHERE is_active = TRUE OR birthdate < '1990-01-01';
-
--- 使用 IN 子句
-SELECT * FROM users WHERE birthdate IN ('1990-01-01', '1992-03-15', '1993-05-03');
-```
-
-### 删除数据
-
-语法：
-
-```mysql
-DELETE [LOW_PRIORITY] [QUICK] [IGNORE] FROM tbl_name
-    [PARTITION (partition_name [, partition_name] ...)]
-    [WHERE where_condition]
-    [ORDER BY ...]
-    [LIMIT row_count]
-```
-
-解释：
-
-删除数据在生产环境不是一个常用的操作，相比于直接删除数据，我们会更多的使用软删除。  
-即便是需要删除数据 `DELETE FROM tbl_name [WHERE where_condition]` 也可以满足大部分需求。
-
-示例：
-
-```mysql
--- 删除 id 为 123456 的用户表数据
-DELETE FROM user WHERE id = 123456;
-
--- 删除 用户为 'jcole' 按 timestamp_column 的一条 somelog 表数据
-DELETE FROM somelog WHERE user = 'jcole' ORDER BY timestamp_column LIMIT 1;
-```
-
-### 更新数据
-
-语法：
-
-```mysql
-UPDATE [LOW_PRIORITY] [IGNORE] table_reference
-    SET assignment_list
-    [WHERE where_condition]
-    [ORDER BY ...]
-    [LIMIT row_count]
-
-value:
-    {expr | DEFAULT}
-
-assignment:
-    col_name = value
-
-assignment_list:
-    assignment [, assignment] ...
-```
-
-解释：  
-大部分情况下，更新数据我们使用如下语法即可：
-
-```mysql
-UPDATE table_name
-SET column1 = value1, column2 = value2, ...
-WHERE condition;
-
-```
-
-- `table_name` 是你要更新数据的表的名称。
-- `column1, column2, ...` 是你要更新的列的名称。
-- `value1, value2, ...` 是新的值，用于替换旧的值。
-- `WHERE condition` 是一个可选的子句，用于指定更新的行。如果省略 WHERE 子句，将更新表中的所有行。
-
-示例：
-
-```mysql
--- 更新单个列的值
-UPDATE employees SET salary = 60000 WHERE employee_id = 101;
-
--- 更新多个列的值
-UPDATE orders SET status = 'Shipped', ship_date = '2023-03-01' WHERE order_id = 1001;
-
--- 使用表达式更新值
-UPDATE products SET price = price * 1.1 WHERE category = 'Electronics';
-```
 
 ## 参考资料
 
