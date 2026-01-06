@@ -28,7 +28,8 @@ UseHugoToc: true
 
 [Hugo -- 搭建一个静态博客](/hugo-blog/note/hugo/quick_start/)  
 [Hugo -- PaperModX 主题 ](/hugo-blog/note/hugo/hugo-papermodx/)  
-[Hugo -- giscus 评论系统 ](/hugo-blog/note/hugo/hugo-comment/)
+[Hugo -- giscus 评论系统 ](/hugo-blog/note/hugo/hugo-comment/)  
+[Hugo -- 支持 Mermaid 渲染](/hugo-blog/note/hugo/hugo-mermaid/)
 
 ## Golang
 
