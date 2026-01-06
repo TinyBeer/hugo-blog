@@ -52,6 +52,10 @@ UseHugoToc: true
 
 ## 测试文件
 
+> [!WARNING]
+> 如果主题中开启了类似 PJAX/SPA 的预加载功能（如：PaperModX 的 InstantClick）可能会导致渲染失败。
+> 原因是预加载导致站内跳转没有触发 load 事件，从而导致 mermaid 库没有触发渲染流程。
+
 如果看到 `mermaid` 代码块被渲染成图表则说明配置成功了。
 
 ```mermaid
@@ -67,7 +71,6 @@ sequenceDiagram
     John->>Bob: How about you?
     Bob-->>John: Jolly good!
 ```
-
 
 ## 参考资料
 
