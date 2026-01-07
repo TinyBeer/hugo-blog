@@ -41,6 +41,61 @@ UseHugoToc: true
 - `git clone <远程仓库地址> [<directory>]`
   克隆远程仓库到本地，可以通过 `directory` 指定克隆到什么地方，如果没有 `directory` 参数，则将远程参考克隆到当前文件夹。
 
+### 管理 Git 配置
+
+`Git` 的配置分为三层，本地、全局、系统（用的比较少）：
+
+| 层级        | 作用范围                 | 参数       |
+| :---------- | :----------------------- | :--------- |
+| 本地 local  | 仅当前 Git 仓库生效      | `--local`  |
+| 全局 global | 对当前用户的所有仓库生效 | `--global` |
+| 系统 system | 对系统所有用户的仓库生效 | `--system` |
+
+以下是一些常用配置，可根据需求添加层级参数：
+
+- `git config list`  
+  列出 `Git` 配置
+  ```bash
+  # 1. 查看所有配置（包含本地+全局+系统，按优先级展示）
+  git config list
+  # 1. 查看本地配置
+  git config list --local
+  ```
+- `git config user.name` 和 `git config user.email`  
+  配置用户名和邮箱，会用作 `commit` 的作者信息
+
+  ```bash
+  # 1. 设置全局用户名（所有仓库共用，推荐优先配置）
+  git config --global user.name "你的用户名"
+
+  # 2. 设置全局邮箱（提交记录会显示该邮箱，需与 Git 平台（GitHub/Gitee）绑定的邮箱一致）
+  git config --global user.email "你的邮箱@xxx.com"
+
+  # 3. 仅为当前仓库设置专属用户名/邮箱（覆盖全局配置，适用于多账号场景）
+  git config user.name "工作专用用户名"
+  git config user.email "工作邮箱@xxx.com"
+  ```
+
+- `git config http.proxy` 和 `git config https.proxy`  
+  代理配置
+
+  ```bash
+    # 全局代理
+    git config --global http.proxy http://127.0.0.1:7897
+    git config --global https.proxy http://127.0.0.1:7897
+    # 当前项目代理
+    git config http.proxy http://127.0.0.1:7897
+    git config https.proxy http://127.0.0.1:7897
+  ```
+
+- `git config --unset`  
+  取消配置
+
+  ```bash
+  # 取消代理配置
+  git config [--global] --unset http.proxy
+  ```
+
 ### 工作区/暂存区操作
 
 - `git add <文件名/文件夹>`
@@ -84,7 +139,7 @@ UseHugoToc: true
 
 ## 学习推荐
 
-这里推荐一个非常优秀的学习工具 [Learn Git Branching](https://learngitbranching.js.org/)   
+这里推荐一个非常优秀的学习工具 [Learn Git Branching](https://learngitbranching.js.org/)  
 它是一款免费、交互式的 `Git` 可视化学习工具，专门用于帮助开发者快速掌握 `Git` 的核心用法，尤其是对 `Git` 分支操作（创建、切换、合并、变基等）的理解，是入门 `Git` 分支的首选工具之一。
 
 ## 参考资料
