@@ -33,12 +33,19 @@ UseHugoToc: true
 
 ## Golang
 
-[XORM -- 简单入门](/hugo-blog/note/golang/database/xorm)  
-[XORM -- 查询缓存](/hugo-blog/note/golang/database/xorm_cache)
+[XORM -- 简单入门](/hugo-blog/note/golang/database/xorm/)  
+[XORM -- 查询缓存](/hugo-blog/note/golang/database/xorm_cache/)
 
 <!-- Todo Reverse 工具 单独开章节-->
 
-[Golang -- Template 模板渲染](/hugo-blog/note/golang/basic/template)
+[Golang -- Template 模板渲染](/hugo-blog/note/golang/basic/template/)
+
+## 数据库 Database
+
+[MySQL -- 基础使用](/hugo-blog/note/database/mysql/mysql_basic/)  
+
+[Redis -- 基础使用](/hugo-blog/note/database/redis/redis_basic/)  
+
 
 ## 容器化
 
@@ -52,12 +59,6 @@ UseHugoToc: true
 [Git -- Angular 提交规范](/hugo-blog/note/git/git_commit/)
 
 <!-- ## Golang
-
-## 数据库 Database
-
-## MySQL
-
-## Redis
 
 # 消息队列 MQ
 
