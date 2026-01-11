@@ -3,7 +3,7 @@ date: '{{ .Date }}'
 title: '{{ replace .File.ContentBaseName "-" " " | title }}'
 tags: []
 categories: "笔记"
-description: "Desc Text."
+description: ""
 draft: true
 searchHidden: false
 
