@@ -41,6 +41,7 @@ UseHugoToc: true
 [Golang -- Template 模板渲染](/hugo-blog/note/golang/basic/template/)
 
 [Golang -- 单元测试](/hugo-blog/note/golang/test/unit_test/)  
+[Golang -- 单元测试之 testify](/hugo-blog/note/golang/test/testify/)  
 [Golang -- 基准测试](/hugo-blog/note/golang/test/benchmark/)
 
 ## 数据库 Database
