@@ -47,98 +47,13 @@ UseHugoToc: true
 | 实例测试函数 | func ExampleXxx()              | 提供代码示例、确保示例代码正确 |
 | 模糊测试函数 | func FuzzXxx(\*testing.F)      | 探测代码在异常输入中的 bug     |
 
-## 单元测试函数
+## 单元测试
 
-下面使用求第 n 个斐波那契数作为示例，演示单元测试的使用方法：
-
-```golang
-// fibo.go
-package fibo
-
-func Fibo(n int) int {
-	if n <= 2 {
-		return 1
-	}
-	return Fibo(n-1) + Fibo(n-2)
-}
-```
-
-测试文件：
-
-```golang
-// fibo_test.go
-package fibo
-
-import "testing"
-
-func TestFibo1(t *testing.T) {
-	n := 1
-	want := 1
-
-	got := Fibo(n)
-
-	if got != want {
-		t.Errorf("expected:%v, got:%v", want, got) // 测试失败输出错误提示
-	}
-}
-
-func TestFibo3(t *testing.T) {
-	n := 3
-	want := 2
-
-	got := Fibo(n)
-
-	if got != want {
-		t.Errorf("expected:%v, got:%v", want, got) // 测试失败输出错误提示
-	}
-}
-```
-
-在当前目录执行 `go test` 可以看到类似如下结果:
-
-```bash
-go test
-PASS
-ok      fibo    0.001s
-```
+[传送门](/hugo-blog/note/golang/test/unit_test/)
 
 ## 基准测试
 
-我们需要为 `go test` 命令添加 `-bench` 参数开启基准测试，参数一般使用以下几种设置方式：
-
-1. 执行单个基准测试
-   `-bench=^测试函数名$`，如： `-bench=^BenchmarkFibo$`
-2. 执行匹配前缀的所有基准测试
-   `-bench=测试函数前缀`，如：`-bench=BenchmarkFibo`
-3. 执行当前路径下所有基准测试
-   `-bench=.`
-
-测试文件：
-
-```golang
-package fibo
-
-import "testing"
-
-func BenchmarkFibo(b *testing.B) {
-	for b.Loop() {
-		Fibo(9)
-	}
-}
-```
-
-执行测试：
-
-```bash
-go test  -bench=^BenchmarkFibo$
-goos: linux
-goarch: amd64
-pkg: fibo
-cpu: 12th Gen Intel(R) Core(TM) i5-12400
-BenchmarkFibo-12        14825277                81.01 ns/op
-PASS
-ok      fibo    1.203s
-```
+[传送门](/hugo-blog/note/golang/test/benchmark/)
 
 ## 示例测试
 
