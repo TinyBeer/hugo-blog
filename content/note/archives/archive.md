@@ -37,8 +37,6 @@ UseHugoToc: true
 [XORM -- 查询缓存](/hugo-blog/note/golang/database/xorm_cache/)  
 [Xorm -- 数据库反转工具 reverse](/hugo-blog/note/golang/database/xorm_reverse/)  
 
-<!-- Todo Reverse 工具 单独开章节-->
-
 [Golang -- Template 模板渲染](/hugo-blog/note/golang/basic/template/)
 
 [Golang -- 单元测试](/hugo-blog/note/golang/test/unit_test/)  
