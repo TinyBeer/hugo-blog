@@ -4,7 +4,7 @@ title: "MySQL -- 基础使用"
 tags: ["Database", "MySQL", "SQL"]
 categories: "笔记"
 description: ""
-draft: true
+draft: false
 searchHidden: false
 
 showToc: true
