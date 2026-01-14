@@ -26,7 +26,7 @@ UseHugoToc: true
 在主题目录下添加 `layouts/_markup/render-codeblock-mermaid.html` 模板文件。具体路径需要根据不同主题确定（如： PaperModX 主题路径为 `layouts/_default/_markup/render-codeblock-mermaid.html`）  
 模板内容如下：
 
-```go-template-html
+```go-html-template
 <pre class="mermaid">
   {{ .Inner | htmlEscape | safeHTML }}
 </pre>
@@ -39,7 +39,7 @@ UseHugoToc: true
 
 在主题目录下找到 `layouts/baseof.html` 基础模板文件，在 `body` 的关闭标签前加入以下代码段：
 
-```go-template-html
+```go-html-template
 {{ if .Store.Get "hasMermaid" }}
   <script type="module">
     import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs';
