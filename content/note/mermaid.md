@@ -4,7 +4,7 @@ title: "Mermaid -- 语法笔记"
 tags: ["Mermaid"]
 categories: "笔记"
 description: ""
-draft: true
+draft: false
 searchHidden: false
 
 showToc: true
