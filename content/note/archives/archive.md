@@ -43,6 +43,8 @@ UseHugoToc: true
 [Golang -- 单元测试之 testify](/hugo-blog/note/golang/test/testify/)  
 [Golang -- 基准测试](/hugo-blog/note/golang/test/benchmark/)
 
+[Gin -- 高性能的 Web 框架](/note/golang/web/gin/)  
+
 ## 数据库 Database
 
 [MySQL -- 基础使用](/hugo-blog/note/database/mysql/mysql_basic/)
