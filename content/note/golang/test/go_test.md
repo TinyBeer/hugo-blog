@@ -4,7 +4,7 @@ title: "Golang -- 测试简介"
 tags: ["Golang", "go test"]
 categories: "笔记"
 description: ""
-draft: true
+draft: false
 searchHidden: false
 
 showToc: true
