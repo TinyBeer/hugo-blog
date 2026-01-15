@@ -35,7 +35,7 @@ UseHugoToc: true
 
 [XORM -- 简单入门](/hugo-blog/note/golang/database/xorm/)  
 [XORM -- 查询缓存](/hugo-blog/note/golang/database/xorm_cache/)  
-[Xorm -- 数据库反转工具 reverse](/hugo-blog/note/golang/database/xorm_reverse/)  
+[Xorm -- 数据库反转工具 reverse](/hugo-blog/note/golang/database/xorm_reverse/)
 
 [Golang -- Template 模板渲染](/hugo-blog/note/golang/basic/template/)
 
@@ -43,7 +43,7 @@ UseHugoToc: true
 [Golang -- 单元测试之 testify](/hugo-blog/note/golang/test/testify/)  
 [Golang -- 基准测试](/hugo-blog/note/golang/test/benchmark/)
 
-[Gin -- 高性能的 Web 框架](/note/golang/web/gin/)  
+[Gin -- 高性能的 Web 框架](/note/golang/web/gin/)
 
 ## 数据库 Database
 
@@ -61,6 +61,10 @@ UseHugoToc: true
 
 [Git -- 基本操作](/hugo-blog/note/git/git_basic/)  
 [Git -- Angular 提交规范](/hugo-blog/note/git/git_commit/)
+
+## 其他
+
+[Mermaid -- 语法笔记 ](/hugo-blog/note/mermaid/)
 
 <!-- ## Golang
 
