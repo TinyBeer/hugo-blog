@@ -1,6 +1,6 @@
 ---
 date: "2026-01-16T14:08:43+08:00"
-title: "RabbitMQ"
+title: "RabbitMQ -- 学习笔记"
 tags: ["RabbitMQ", "Golang", "MQ"]
 categories: "笔记"
 description: ""
@@ -395,9 +395,20 @@ go run ./sender
 
 ### prefetch
 
-使用 `Round-robin` 进行消息分发，很可能发生负载倾斜（大量工作负载被分发到少数消费者上）如：两个消费者时，偶数消息都为高负载任务。这是我们可以使用 `prefetch` 进行负载平衡。
+使用 `Round-robin` 进行消息分发，很可能发生负载倾斜（大量工作负载被分发到少数消费者上）如：两个消费者时，偶数消息都为高负载任务。这时我们可以使用 `prefetch` 进行负载平衡。  
+`prefetch` 的功能设置允许保留未确认消息的数量，即 `未确认消息数量 < prefetch count` 时才允许继续向该消费者投递消息。
 
+```golang
+err = ch.Qos(
+  1,     // prefetch count
+  0,     // prefetch size
+  false, // global
+)
+```
 
+- `prefetch count` 可预取消息数量，0 表示不限制
+- `prefetch size` 可预取消息大小，0 表示不限制，这个几乎不会使用到
+- `global` 配置的作用域，`false` 表示限制消费者，`true` 表示限制整个 通道，大多数情况都配置为 `false`
 
 ## 消息确认机制
 
@@ -539,6 +550,300 @@ err = ch.PublishWithContext(ctx,
     })
 ...
 ```
+
+## 发布/订阅机制
+
+在之前的示例中，我们构建了一个任务队列，每一个任务又一个消费者（receiver）进行处理。这一个我们想要实现一个事件触发机制，即生产者投递的消息是一个事件（如：用户登录，用户执行了某些操作。。。），所有关注（订阅）这个事件的消费者都可以获取到这个事件消息，并各自进行处理。这种模式就是常说的发布/订阅机制。
+
+### Exchange 交换机
+
+在进行具体操作介绍前，这里不得不对 `Exchange（交换机）` 进行补充说明，用以补全 `RabbitMQ` 的消息模型。在之前的介绍中，我们曾经提提到过 `RabbitMQ` 的三个感念：
+
+1. `生产者 （Producer）`：向消息中间件发送消息
+2. `队列 （Queue）`： 存储消息的缓存
+3. `消费者（Consumer）`：从队列中获取并消费消息
+
+事实上在 `RabbitMQ` 中 `生产者` 并不直接向 `队列` 发送消息，而是将消息发送给 `交换机（Exchange）`，由 `交换机` 决定消息该发送给哪些 `队列` 。
+
+```mermaid
+graph LR
+    C1((C1))
+    C2((C2))
+    P((P)) --> X{{"交换机"}} --> Q1[[Q1]] & Q2[[Q2]]
+    Q1 --> C1
+    Q2 --> C2
+
+```
+
+`RabbitMQ` 中定义了四种交换机类型（`direct`, `topic`, `headers`, `fanout`），以满足不同的消息投递需求。
+
+#### direct
+
+`direct` 类型的交换机，它尝试将消息投递到 与 `routing key` 参数同名的 队列中（如果队列不存在消息将被抛弃）。声明方法如下：
+
+> `RabbitMQ` 会默认创建一个名称为空字符串的 `direct` （默认）交换机，如果消息投递时未设置交换机名称，则会投递到这个默认的交换机上。
+> 此外，声明的队列隐式地绑定到默认交换机上。这也是为什么即便我们没有创建和绑定交换机，之前的示例也能工作的原因。
+
+```golang
+err = ch.ExchangeDeclare(
+  "xxx",   // name
+  "direct", // type
+  true,     // durable
+  false,    // auto-deleted
+  false,    // internal
+  false,    // no-wait
+  nil,      // arguments
+)
+```
+
+当然，由于它是默认的交换机，我们可以不声明而通过向名称为空字符串的交换机投递消息进行使用，就像之前的示例一样：
+
+```golang
+err = ch.PublishWithContext(ctx,
+  // 向名称为空的交换机投递消息
+  "",     // exchange
+  q.Name, // routing key
+  false,  // mandatory
+  false,  // immediate
+  amqp.Publishing{
+    ContentType: "text/plain",
+    Body:        []byte(body),
+})
+```
+
+#### fanout
+
+`fanout` 类型的交换机会向所有它知道（与其绑定）的队列投递消息。声明方法如下：
+
+```golang
+err = ch.ExchangeDeclare(
+  "xxx",   // name
+  "fanout", // type
+  true,     // durable
+  false,    // auto-deleted
+  false,    // internal
+  false,    // no-wait
+  nil,      // arguments
+)
+```
+
+为了使 `fanout` 交换机工作我们还需要进行队列绑定：
+
+```golang
+err = ch.QueueBind(
+  q.Name, // queue name
+  "",     // routing key
+  "xxx", // exchange
+  false,
+  nil,
+)
+```
+
+#### topic
+
+`topic` 类型的交换机，它允许使用模糊匹配的方式确定消息应该投递到哪些队列。这种模糊匹配通过在队列绑定的 `routing key` 参数中使用以下两种匹配符实现：
+
+> 注意这里说的是 `QueueBind` 的 `routing key` 参数
+
+- `*` 匹配一个词
+- `#` 匹配多个词
+
+这里规定 `routing key` 由点 `.` 连接的多个词组成。
+
+以下是匹配规则示例：
+假设消息的 `routing kye` 格式是 `<speed>.<colour>.<species>`，则
+
+1. `*.orange.*`： 匹配所有 `<color>` 为 `orange` 的消息
+2. `*.*.rabbit`： 匹配所有 `species` 为 `rabbit` 的消息
+3. `lazy.#`: 匹配所有 `lazy.` 为前缀的消息
+
+```mermaid
+graph LR
+    Q1[[Q1]]
+    Q2[[Q2]]
+    p((P))-->X{{topic}}-->|"\*.orange.\*"|Q1-->C1((C1))
+    X-->|"\*.\*.rabbit"|Q2-->C2((C2))
+    X-->|"lazy.\#"|Q2
+```
+
+官方示例：
+
+```golang emit_log_topic.go
+// emit_log_topic.go
+package main
+
+import (
+        "context"
+        "log"
+        "os"
+        "strings"
+        "time"
+
+        amqp "github.com/rabbitmq/amqp091-go"
+)
+
+func failOnError(err error, msg string) {
+        if err != nil {
+                log.Panicf("%s: %s", msg, err)
+        }
+}
+
+func main() {
+        conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
+        failOnError(err, "Failed to connect to RabbitMQ")
+        defer conn.Close()
+
+        ch, err := conn.Channel()
+        failOnError(err, "Failed to open a channel")
+        defer ch.Close()
+
+        err = ch.ExchangeDeclare(
+                "logs_topic", // name
+                "topic",      // type
+                true,         // durable
+                false,        // auto-deleted
+                false,        // internal
+                false,        // no-wait
+                nil,          // arguments
+        )
+        failOnError(err, "Failed to declare an exchange")
+
+        ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+        defer cancel()
+
+        body := bodyFrom(os.Args)
+        err = ch.PublishWithContext(ctx,
+                "logs_topic",          // exchange
+                severityFrom(os.Args), // routing key
+                false, // mandatory
+                false, // immediate
+                amqp.Publishing{
+                        ContentType: "text/plain",
+                        Body:        []byte(body),
+                })
+        failOnError(err, "Failed to publish a message")
+
+        log.Printf(" [x] Sent %s", body)
+}
+
+func bodyFrom(args []string) string {
+        var s string
+        if (len(args) < 3) || os.Args[2] == "" {
+                s = "hello"
+        } else {
+                s = strings.Join(args[2:], " ")
+        }
+        return s
+}
+
+func severityFrom(args []string) string {
+        var s string
+        if (len(args) < 2) || os.Args[1] == "" {
+                s = "anonymous.info"
+        } else {
+                s = os.Args[1]
+        }
+        return s
+}
+```
+
+```golang receive_logs_topic.go
+// receive_logs_topic.go
+package main
+
+import (
+        "log"
+        "os"
+
+        amqp "github.com/rabbitmq/amqp091-go"
+)
+
+func failOnError(err error, msg string) {
+        if err != nil {
+                log.Panicf("%s: %s", msg, err)
+        }
+}
+
+func main() {
+        conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
+        failOnError(err, "Failed to connect to RabbitMQ")
+        defer conn.Close()
+
+        ch, err := conn.Channel()
+        failOnError(err, "Failed to open a channel")
+        defer ch.Close()
+
+        err = ch.ExchangeDeclare(
+                "logs_topic", // name
+                "topic",      // type
+                true,         // durable
+                false,        // auto-deleted
+                false,        // internal
+                false,        // no-wait
+                nil,          // arguments
+        )
+        failOnError(err, "Failed to declare an exchange")
+
+        q, err := ch.QueueDeclare(
+                "",    // name
+                false, // durable
+                false, // delete when unused
+                true,  // exclusive
+                false, // no-wait
+                nil,   // arguments
+        )
+        failOnError(err, "Failed to declare a queue")
+
+        if len(os.Args) < 2 {
+                log.Printf("Usage: %s [binding_key]...", os.Args[0])
+                os.Exit(0)
+        }
+        for _, s := range os.Args[1:] {
+                log.Printf("Binding queue %s to exchange %s with routing key %s",
+                        q.Name, "logs_topic", s)
+                err = ch.QueueBind(
+                        q.Name,       // queue name
+                        s,            // routing key
+                        "logs_topic", // exchange
+                        false,
+                        nil)
+                failOnError(err, "Failed to bind a queue")
+        }
+
+        msgs, err := ch.Consume(
+                q.Name, // queue
+                "",     // consumer
+                true,   // auto ack
+                false,  // exclusive
+                false,  // no local
+                false,  // no wait
+                nil,    // args
+        )
+        failOnError(err, "Failed to register a consumer")
+
+        var forever chan struct{}
+
+        go func() {
+                for d := range msgs {
+                        log.Printf(" [x] %s", d.Body)
+                }
+        }()
+
+        log.Printf(" [*] Waiting for logs. To exit press CTRL+C")
+        <-forever
+}
+```
+
+#### header
+
+`header` 类型的交换机是基于 `消息的 Header 头部属性` 做消息投递，它的使用非常灵活，但会带来一定的性能损失。生产环境中使用比较少，这里就不进行详细介绍了。
+
+### 补充
+
+这里补充几个 `RabbitMQ` CLI 命令：
+
+- 列出所有交换机： `rabbitmqctl list_exchanges`
+- 列出所有绑定关系： `rabbitmqctl list_bindings`
 
 ## 参考资料
 

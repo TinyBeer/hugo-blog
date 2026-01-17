@@ -57,6 +57,10 @@ UseHugoToc: true
 
 [Docker -- 实用技巧总结 Linux](/hugo-blog/note/docker/docker_trick/)
 
+# 消息队列 MQ
+
+[RabbitMQ -- 学习笔记](/hugo-blog/note/mq/rabbitmq/)
+
 ## Git
 
 [Git -- 基本操作](/hugo-blog/note/git/git_basic/)  
@@ -67,8 +71,6 @@ UseHugoToc: true
 [Mermaid -- 语法笔记 ](/hugo-blog/note/mermaid/)
 
 <!-- ## Golang
-
-# 消息队列 MQ
 
 # RabbitMQ
 
