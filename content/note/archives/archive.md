@@ -37,7 +37,8 @@ UseHugoToc: true
 [XORM -- 查询缓存](/hugo-blog/note/golang/database/xorm_cache/)  
 [Xorm -- 数据库反转工具 reverse](/hugo-blog/note/golang/database/xorm_reverse/)
 
-[Golang -- Template 模板渲染](/hugo-blog/note/golang/basic/template/)
+[Golang -- Template 模板渲染](/hugo-blog/note/golang/basic/template/)  
+[Golang -- net/rpc 包](/hugo-blog/note/golang/basic/rpc/)  
 
 [Golang -- 单元测试](/hugo-blog/note/golang/test/unit_test/)  
 [Golang -- 单元测试之 testify](/hugo-blog/note/golang/test/testify/)  
