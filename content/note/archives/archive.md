@@ -45,7 +45,7 @@ UseHugoToc: true
 [Golang -- 基准测试](/hugo-blog/note/golang/test/benchmark/)  
 [go-wrk -- HTTP服务压力测试工具](/hugo-blog/note/golang/test/go-wrk/)
 
-[Gin -- 高性能的 Web 框架](/note/golang/web/gin/)
+[Gin -- 高性能的 Web 框架](/hugo-blog/note/golang/web/gin/)
 
 ## 数据库 Database
 
