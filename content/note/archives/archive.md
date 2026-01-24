@@ -35,7 +35,7 @@ UseHugoToc: true
 
 [XORM -- 简单入门](/hugo-blog/note/golang/database/xorm/)  
 [XORM -- 查询缓存](/hugo-blog/note/golang/database/xorm_cache/)  
-[Xorm -- 数据库反转工具 reverse](/hugo-blog/note/golang/database/xorm_reverse/)
+[XORM -- 数据库反转工具 reverse](/hugo-blog/note/golang/database/xorm_reverse/)
 
 [Golang -- Template 模板渲染](/hugo-blog/note/golang/basic/template/)  
 [Golang -- net/rpc 包](/hugo-blog/note/golang/basic/rpc/)  

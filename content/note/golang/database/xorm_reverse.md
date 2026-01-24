@@ -1,6 +1,6 @@
 ---
 date: "2026-01-13T12:11:16+08:00"
-title: "Xorm -- 数据库反转工具 reverse"
+title: "XORM -- 数据库反转工具 reverse"
 tags: ["Golang", "XORM", "ORM", "Database"]
 categories: "笔记"
 description: ""
