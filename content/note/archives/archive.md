@@ -54,7 +54,7 @@ UseHugoToc: true
 
 [Docker -- 实用技巧总结 Linux](/hugo-blog/note/docker/docker_trick/)
 
-# 消息队列 MQ
+## 消息队列 MQ
 
 [RabbitMQ -- 学习笔记](/hugo-blog/note/mq/rabbitmq/)
 
