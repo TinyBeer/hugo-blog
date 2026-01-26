@@ -1,7 +1,7 @@
 ---
 date: "2026-01-19T15:57:46+08:00"
 title: "MySQL -- 执行计划"
-tags: ["MySQL", "execution plan"]
+tags: ["MySQL", "optimization"]
 categories: "笔记"
 description: ""
 draft: false
