@@ -24,21 +24,10 @@ UseHugoToc: true
 
 <!--more-->
 
-## 博客
-
-[Hugo -- 搭建一个静态博客](/hugo-blog/note/hugo/quick_start/)  
-[Hugo -- PaperModX 主题 ](/hugo-blog/note/hugo/hugo-papermodx/)  
-[Hugo -- giscus 评论系统 ](/hugo-blog/note/hugo/hugo-comment/)  
-[Hugo -- 支持 Mermaid 渲染](/hugo-blog/note/hugo/hugo-mermaid/)
-
 ## Golang
 
-[XORM -- 简单入门](/hugo-blog/note/golang/database/xorm/)  
-[XORM -- 查询缓存](/hugo-blog/note/golang/database/xorm_cache/)  
-[XORM -- 数据库反转工具 reverse](/hugo-blog/note/golang/database/xorm_reverse/)
-
 [Golang -- Template 模板渲染](/hugo-blog/note/golang/basic/template/)  
-[Golang -- net/rpc 包](/hugo-blog/note/golang/basic/rpc/)  
+[Golang -- net/rpc 包](/hugo-blog/note/golang/basic/rpc/)
 
 [Golang -- 单元测试](/hugo-blog/note/golang/test/unit_test/)  
 [Golang -- 单元测试之 testify](/hugo-blog/note/golang/test/testify/)  
@@ -47,10 +36,14 @@ UseHugoToc: true
 
 [Gin -- 高性能的 Web 框架](/hugo-blog/note/golang/web/gin/)
 
+[XORM -- 简单入门](/hugo-blog/note/golang/database/xorm/)  
+[XORM -- 查询缓存](/hugo-blog/note/golang/database/xorm_cache/)  
+[XORM -- 数据库反转工具 reverse](/hugo-blog/note/golang/database/xorm_reverse/)
+
 ## 数据库 Database
 
 [MySQL -- 基础使用](/hugo-blog/note/database/mysql/mysql_basic/)
-[MySQL -- 执行计划](/hugo-blog/note/database/mysql/query_execution_plan/)  
+[MySQL -- 执行计划](/hugo-blog/note/database/mysql/query_execution_plan/)
 
 [Redis -- 基础使用](/hugo-blog/note/database/redis/redis_basic/)
 
@@ -73,12 +66,17 @@ UseHugoToc: true
 
 [Mermaid -- 语法笔记 ](/hugo-blog/note/mermaid/)
 
-<!-- ## Golang
+## 博客
 
-# RabbitMQ
+[Hugo -- 搭建一个静态博客](/hugo-blog/note/hugo/quick_start/)  
+[Hugo -- PaperModX 主题 ](/hugo-blog/note/hugo/hugo-papermodx/)  
+[Hugo -- giscus 评论系统 ](/hugo-blog/note/hugo/hugo-comment/)  
+[Hugo -- 支持 Mermaid 渲染](/hugo-blog/note/hugo/hugo-mermaid/)
 
+<!--
 # 微服务
 
 # 开发环境
 
-## VSCode -->
+## VSCode
+-->
