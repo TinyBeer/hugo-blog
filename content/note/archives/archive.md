@@ -54,6 +54,7 @@ UseHugoToc: true
 
 [Docker -- 快速入门](/hugo-blog/note/docker/docker_start/)  
 [Docker -- 镜像构建](/hugo-blog/note/docker/docker_build/)  
+[Docker -- docker compose](/hugo-blog/note/docker/docker_compose/)  
 [Docker -- 实用技巧总结 Linux](/hugo-blog/note/docker/docker_trick/)
 
 ## 消息队列 MQ

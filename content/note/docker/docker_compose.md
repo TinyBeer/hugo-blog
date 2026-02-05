@@ -1,10 +1,10 @@
 ---
 date: "2026-02-03T14:28:44+08:00"
 title: "Docker -- docker compose"
-tags: []
+tags: ["Docker", "docker compose"]
 categories: "笔记"
 description: ""
-draft: true
+draft: false
 searchHidden: false
 
 showToc: true
@@ -103,9 +103,22 @@ web-nginx-1   nginx:1.28.1-alpine-slim   "/docker-entrypoint.…"   nginx     7 
 
 可以看到有一个容器 `web-nginx-1` 正在运行。
 
-## 生命周期管理
+## 常用命令
 
-`docker compose` 
+`docker compose` 提供了完整方便的应用管理命令：
+
+- `docker compose up` 启动应用
+- `docker compose down` 停止并销毁应用
+  默认情况下会停止并删除容器及默认网络，可以添加参数 `-v` 或者 `--volumes` 删除命名数据卷（慎用），添加参数 `--rmi all` 同时删除构建所使用到的镜像。
+- `docker compose stop` 停止应用。
+  所有资源都会保留，可以使用 `docker compose -d` 快速恢复。
+- `docker compose restart` 重启应用。
+  默认重启应用中所有服务对应的容器，可以通过 `docker compose restart <服务名>` 重启指定的服务。
+- `docker compose ps` 查看容器（服务）运行状态。
+- `docker compose log` 查看容器（服务）日志。
+  默认查看整个应用的日志，可使用 `docker compose log <服务名>` 查看指定服务的日志。配合 `-f` 持续追踪查看实时日志输出。
+- `docker compose exec <服务名> <命令>` 进入容器执行命令。
+  类似 `docker exec`，使用示例 `docker-compose exec db bash`。
 
 ## 端口映射
 
@@ -154,9 +167,213 @@ Commercial support is available at
 
 ## 数据卷绑定
 
-### 挂载到本地目录
+在启动应用的时候，我们通常有 服务器使用指定的配置文件、指定的数据文件、持久化产生的数据 这类需求，这就需要使用数据卷绑定功能。`docker compose` 支持 `主机绑定挂载` 和 `命名卷` 方式。
 
+### 主机绑定挂载
 
+主机绑定挂载允许我们将本地目录映射到容器内的指定目录，通过 `services` 元素下的 `volumes` 属性进行设置。
+
+这里我们以为修改 `nginx` 的主页为例子进行演示：
+
+1. 在之前使用的 `compose` 文件下创建 `html` 文件夹，添加 `index.html`。
+
+```bash
+mkdir html
+touch index.html
+```
+
+在 `index.html` 中添加以下内容：
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Hello World</h1>
+  </body>
+</html>
+```
+
+2. 修改 `compose.yaml` 文件：
+
+```yaml
+# compose.yaml
+name: "web"
+services:
+  nginx:
+    image: "nginx:1.28.1-alpine-slim"
+    ports:
+      - "9999:80"
+    # 添加 volumes 属性
+    volumes:
+      # 绑定格式为  本地路径:容器内路径
+      - "./html:/usr/share/nginx/html/"
+```
+
+3. 更新应用进行测试：
+
+```bash
+docker compose up -d
+[+] Running 2/2
+✔ Network web_default    Created                                                                                                                                          0.0s
+✔ Container web-nginx-1  Started                                                                                                                                          0.1s
+```
+
+```bash
+curl http://localhost:9999
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Hello World</h1>
+</body>
+</html>%
+```
+
+可以看到返回内容为我们准备的 `html` 文件，说明路径已经映射到容器内容。
+
+### 命名卷
+
+命名卷的创建是 `docker compose` 进行管理，我们只需要在 `compose` 文件中进行声明、绑定即可使用。
+
+声明命名卷需要使用顶级元素 `volumes`:
+
+```yaml
+volumes:
+  nginx-data:
+```
+
+绑定方法同主机绑定挂载一样，仅需将本地路径替换成命名卷名即可：
+
+```yaml
+services:
+  backend:
+    image: example/database
+    volumes:
+      - db-data:/etc/data
+
+  backup:
+    image: backup-service
+    volumes:
+      - db-data:/var/lib/backup/data
+
+volumes:
+  db-data:
+```
+
+## 环境变量
+
+`docker compose` 支持为服务（容器）添加环境变量。通过在 `service` 的 `environment` 添加配置实现，配置格式如下：
+
+```yaml
+services:
+  db: # 服务名：db
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+```
+
+或者：
+
+```yaml
+services:
+  db: # 服务名：db
+    image: mysql:8.0
+    environment:
+      - MYSQL_ROOT_PASSWORD=123456
+```
+
+## 重启策略
+
+通过对 `service` 添加属性 `restart`，可以控制服务（容器）退出后的重启策略，目前支持一下配置：
+
+- `no` 默认配置，不进行重启。
+- `always` 只要容器退出就进行重启，知道容器被移除。即使是手动停止容器，在 `docker` 守护进程重启（如：服务器重启时）后任然会进行重启。
+- `on-failure[:max-retries]` 异常退出的时候进行重启，异常退出的判定基于退出时的状体码（exit code）。可以添加最大尝试次数（`max-retries`） 限制。
+- `unless-stopped` 只要容器停止就进行重启，除非主动停止或者被移除。
+
+使用示例：
+
+```yaml
+services:
+  test-app:
+    build: .
+    ports:
+      - "8081:8080"
+    restart: unless-stopped # 测试环境：自动重启，手动停止后不恢复
+  # 缓存服务
+  redis:
+    image: redis:7.0
+    volumes:
+      - redis-data:/data
+    restart: always # 缓存：核心依赖，无条件重启
+    # 数据同步脚本：异常退出重启，最多重试3次
+  data-sync:
+    build: ./sync
+    restart: on-failure:3 # 非0退出重启，最多3次，避免致命错误无限重启
+  # 日志收集服务：任意异常退出都重启，不限制次数
+  log-collect:
+    image: logstash:8.0
+    restart: on-failure # 仅异常重启，无次数限制
+```
+
+## 启动顺序
+
+通过服务的 `depends_on` 属性，我们可以描述服务的依赖关系，从而控制服务的启动、停止顺序等。
+
+`depends_on` 属性的内容是一个数组，数组中的元素是其他服务名。使用方法如下：
+
+```yaml
+version: "3.8" # 兼容所有 3.x 版本，2.x 也支持
+services:
+  # 业务服务：依赖 db 和 redis，需后启动
+  app:
+    image: my-app:latest
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db # 依赖数据库服务
+      - redis # 依赖缓存服务
+
+  # 数据库服务：无依赖，最先启动
+  db:
+    image: mysql:8.0
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+  # 缓存服务：无依赖，与 db 并行启动（无相互依赖时）
+  redis:
+    image: redis:7.0
+    volumes:
+      - redis-data:/data
+
+volumes:
+  mysql-data:
+  redis-data:
+```
+
+启动顺序说明：
+
+1.  无依赖的 `db` 和 `redis` 会并行启动（提升启动效率）；
+2.  等待 `db` 和 `redis` 均启动（容器状态为 `running`）后，再启动 `app` 服务；
+3.  若依赖服务启动失败，当前服务会直接终止启动，避免无效运行。
+
+> 有时候即使容器状态为 `running` 时，但服务还没有就绪。此时启动依赖服务可能造成一些异常报错。`Compose 3+` 后 `denpends_on` 提供了健康检查功能（healthcheck）实现更加精细的启动顺序控制。详细用法可以参考[官方文档 -- depends_on](https://docs.docker.com/reference/compose-file/services/#depends_on)。
+
+## 待续。。。
+
+<!-- todo 补充 资源限制-->
 
 ## 参考资料
 
