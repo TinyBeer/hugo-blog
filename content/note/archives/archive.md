@@ -32,7 +32,8 @@ UseHugoToc: true
 [Golang -- 单元测试](/hugo-blog/note/golang/test/unit_test/)  
 [Golang -- 单元测试之 testify](/hugo-blog/note/golang/test/testify/)  
 [Golang -- 基准测试](/hugo-blog/note/golang/test/benchmark/)  
-[go-wrk -- HTTP服务压力测试工具](/hugo-blog/note/golang/test/go-wrk/)
+[go-wrk -- HTTP服务压力测试工具](/hugo-blog/note/golang/test/go-wrk/)  
+[takama/daemon -- 以守护进程方式运行服务](/hugo-blog/note/golang/golang_daemon/)
 
 [Gin -- 高性能的 Web 框架](/hugo-blog/note/golang/web/gin/)
 
