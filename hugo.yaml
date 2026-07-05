@@ -39,7 +39,7 @@ params:
   # 作者
   author: 
     name: "TinyBeer"
-    email: ""
+    email: "543595604@qq.com"
   # author: ["Me", "You"] # multiple authors
   images: ["<link or path of image for opengraph, twitter-cards>"]
   # 日期格式
