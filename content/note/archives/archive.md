@@ -27,7 +27,8 @@ UseHugoToc: true
 ## Golang
 
 [Golang -- Template 模板渲染](/hugo-blog/note/golang/basic/template/)  
-[Golang -- net/rpc 包](/hugo-blog/note/golang/basic/rpc/)
+[Golang -- net/rpc 包](/hugo-blog/note/golang/basic/rpc/)  
+[Golang -- log/slog 结构化日志包](/hugo-blog/note/golang/basic/slog/)
 
 [Golang -- 单元测试](/hugo-blog/note/golang/test/unit_test/)  
 [Golang -- 单元测试之 testify](/hugo-blog/note/golang/test/testify/)  
