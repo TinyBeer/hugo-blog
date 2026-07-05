@@ -1,12 +1,13 @@
 baseURL: https://tinybeer.github.io/hugo-blog
 # 博客语言
-languageCode: zh-cn
+# languageCode: zh-cn
+locale: zh-cn
 defaultContentLanguage: zh-cn
 defaultContentLanguageInSubdir: false
 # 博客名称
 title: "🍺Let's Beer!!"
 # 主题
-theme: ["PaperModXP", "PaperModX", "PaperMod"]
+theme: ["PaperModXP"]
 # 每页多少文章
 # 官方文档中使用的 paginate 已经弃用
 paginate.pagerSize: 5
@@ -36,7 +37,9 @@ params:
   # 站点关键词
   keywords: [Blog, PaperMod]
   # 作者
-  author: TinyBeer
+  author: 
+    name: "TinyBeer"
+    email: ""
   # author: ["Me", "You"] # multiple authors
   images: ["<link or path of image for opengraph, twitter-cards>"]
   # 日期格式
