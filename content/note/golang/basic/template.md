@@ -315,9 +315,9 @@ go run .
 
 ### 全局函数
 
-以下是预定义的全局函数：`
+以下是预定义的全局函数：
 
-```plaintext`
+```plaintext
 and
 返回第一个零值参数或者最后一个参数。
 
@@ -495,6 +495,9 @@ ONE TWO
 模板可以使用模板调用来实例化另一个关联的模板；名称必须是与包含调用的模板关联的模板的名称。
 可以多次调用 `Parse` 来组装各种相关模板，也可以使用 `ParseFiles` 或 `ParseGlob` 简单地解析存储在文件中的相关模板。
 
+> ⚠️ template 使用文件名称作为模板的唯一标识，如果加载模板中包含同名文件会进行覆盖（保留最后加载的模板）。
+> 此时需要使用 `func (t *template.Template) New(name string) *template.Template` 为模板单独命名。
+
 ```golang
 // pattern is the glob pattern used to find all the template files.
 pattern := filepath.Join(dir, "*.tmpl")
@@ -530,6 +533,32 @@ if err != nil {
 
 ```golang
 template.New("test").Delims("{[", "]}").ParseFiles("./t.tmpl")
+```
+
+## 模式总结
+
+### 根据参数决定变量（配置库）
+
+```go-template
+{{- /* 变量定义 */ -}}
+{{- /* 端口号偏移 */ -}}
+{{- $port_offset := 0 -}}
+
+{{- if eq .project_code "a"  -}}
+  {{- $port_offset = 0 -}}
+{{- else if eq .project_code "b" -}}
+  {{- $port_offset = 1 -}}
+{{- else if eq .project_code "c" -}}
+  {{- $port_offset = 2 -}}
+{{- else if eq .project_code "d" -}}
+  {{- $port_offset = 3 -}}
+{{- else if eq .project_code "e" -}}
+  {{- $port_offset = 4 -}}
+{{- end -}}
+
+{{- if ne .port_offset -1 -}} 
+  {{- $port_offset = .port_offset -}}
+{{- end -}}
 ```
 
 ## 参考资料
