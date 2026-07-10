@@ -1,6 +1,6 @@
 ---
 date: "2021-04-18T10:03:19+08:00"
-title: "Map -- 底层实现"
+title: "Golang -- map 底层实现"
 tags: ["Golang", "源码阅读"]
 categories: "笔记"
 description: ""
@@ -27,8 +27,6 @@ tags: ['Golang', '数据结构']
 toc: true
 
 ---
-
-# Go Map 底层实现
 
 ## 概述
 

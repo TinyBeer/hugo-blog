@@ -29,7 +29,9 @@ UseHugoToc: true
 [Golang -- Template 模板渲染](/hugo-blog/note/golang/basic/template/)  
 [Golang -- net/rpc 包](/hugo-blog/note/golang/basic/rpc/)  
 [Golang -- log/slog 结构化日志包](/hugo-blog/note/golang/basic/slog/)  
-[Golang --  slice 原理&实践](/hugo-blog/note/golang/basic/slice_guide/)  
+[Golang -- slice 原理&实践](/hugo-blog/note/golang/basic/slice_guide/)  
+[Golang -- map 底层实现](/hugo-blog/note/golang/basic/map_guide/)  
+[Golang -- sync.Pool 从使用到源码](/hugo-blog/note/golang/basic/sync_pool_guide/)
 
 [Golang -- 单元测试](/hugo-blog/note/golang/test/unit_test/)  
 [Golang -- 单元测试之 testify](/hugo-blog/note/golang/test/testify/)  
@@ -42,14 +44,12 @@ UseHugoToc: true
 [GORM -- Go 语言编写的 ORM 框架](/hugo-blog/note/golang/database/gorm/)  
 [XORM -- 简单入门](/hugo-blog/note/golang/database/xorm/)  
 [XORM -- 查询缓存](/hugo-blog/note/golang/database/xorm_cache/)  
-[XORM -- 数据库反转工具 reverse](/hugo-blog/note/golang/database/xorm_reverse/)  
+[XORM -- 数据库反转工具 reverse](/hugo-blog/note/golang/database/xorm_reverse/)
 
-[Cache2go -- 轻量级的 Go 缓存库](/hugo-blog/note/golang/cache/cache2go/)  
-
-[Map -- 底层实现](/hugo-blog/note/golang/map-implementation/)  
+[Cache2go -- 轻量级的 Go 缓存库](/hugo-blog/note/golang/cache/cache2go/)
 
 [gofumpt -- 更严格的代码格式化策略](/hugo-blog/note/golang/gofumpt/)  
-[Go模块管理速查手册](/hugo-blog/note/golang/module_quick_reference/)  
+[Go模块管理速查手册](/hugo-blog/note/golang/module_quick_reference/)
 
 ## 数据库 Database
 
@@ -57,7 +57,7 @@ UseHugoToc: true
 [MySQL -- 慢查询日志](/hugo-blog/note/database/mysql/slow_query_log/)  
 [MySQL -- 执行计划](/hugo-blog/note/database/mysql/query_execution_plan/)  
 [MongoDB -- 学习笔记](/hugo-blog/note/database/mongodb/mongodb/)  
-[Elasticsearch -- 基础操作](/hugo-blog/note/database/elasticsearch/elasticsearch/)  
+[Elasticsearch -- 基础操作](/hugo-blog/note/database/elasticsearch/elasticsearch/)
 
 [Redis -- 基础使用](/hugo-blog/note/database/redis/redis_basic/)
 
