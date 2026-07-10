@@ -62,7 +62,8 @@ UseHugoToc: true
 [MongoDB -- 学习笔记](/hugo-blog/note/database/mongodb/mongodb/)  
 [Elasticsearch -- 基础操作](/hugo-blog/note/database/elasticsearch/elasticsearch/)
 
-[Redis -- 基础使用](/hugo-blog/note/database/redis/redis_basic/)
+[Redis -- 入门篇](/hugo-blog/note/database/redis/redis_beginner/)  
+[Redis -- 进阶篇](/hugo-blog/note/database/redis/redis_advanced/)  
 
 ## 容器化
 
