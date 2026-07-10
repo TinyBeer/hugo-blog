@@ -38,6 +38,7 @@ UseHugoToc: true
 
 [Gin -- 高性能的 Web 框架](/hugo-blog/note/golang/web/gin/)
 
+[GORM -- Go 语言编写的 ORM 框架](/hugo-blog/note/golang/database/gorm/)  
 [XORM -- 简单入门](/hugo-blog/note/golang/database/xorm/)  
 [XORM -- 查询缓存](/hugo-blog/note/golang/database/xorm_cache/)  
 [XORM -- 数据库反转工具 reverse](/hugo-blog/note/golang/database/xorm_reverse/)  
