@@ -34,6 +34,7 @@ UseHugoToc: true
 [Golang -- sync.Pool 从使用到源码](/hugo-blog/note/golang/basic/sync_pool_guide/)  
 [Golang -- metricsc 参考](/hugo-blog/note/golang/basic/metrics_reference/)  
 [Golang -- 协程池设计与实践](/hugo-blog/note/golang/goroutine_pool/)  
+[Golang -- 空结构体](/hugo-blog/note/golang/empty_struct/)  
 
 [Golang -- 单元测试](/hugo-blog/note/golang/test/unit_test/)  
 [Golang -- 单元测试之 testify](/hugo-blog/note/golang/test/testify/)  

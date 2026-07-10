@@ -1,7 +1,7 @@
 ---
 date: "2024-05-30T15:40:52+08:00"
 title: "Go模块管理速查手册.md"
-tags: ["Golang", "mod","workspace"]
+tags: ["Golang", "mod", "workspace"]
 categories: "笔记"
 description: ""
 draft: true
@@ -21,13 +21,13 @@ UseHugoToc: true
 
 本文将对`go mod`和`go work`两个依赖管理工具进行简单的说明。未能解释清楚的地方可自行查阅官方文档。<!-- more -->
 
-# module
+## module
 
 `go module`是 Go 1.11 版本之后官方推出的版本管理工具，并且从 Go 1.13 版本开始，`go module`成为了 Go 语言默认的依赖管理工具。
 
-## 重要环境变量
+### 重要环境变量
 
-### GO111MODULE
+#### GO111MODULE
 
 `GO111MODULE`是用于控制`go module`工作模式的环境变量，它有三个可选值：
 
@@ -35,7 +35,7 @@ UseHugoToc: true
 2. `on` 启用，编译时只根据`go.mod`管理依赖。
 3. `auto` 自动，当项目不在`$GOPATH/src`下，并且项目根目录有`go.mod`文件时，开启模块支持。
 
-### GOPROXY
+#### GOPROXY
 
 `GOPROXY`用于配置下载依赖的代理地址，默认值为`https://proxy.golang.org`，但对于国内用户不是很友好。
 可以使用其他镜像源替代，如`goproxy.cn`
@@ -58,7 +58,7 @@ https://gocenter.io
 
 `GOPROXY`中的`direct`表示对于不在代理中的包，直接从源站拉取，而不是返回错误。
 
-### GOPRIVATE / GONOSUMDB
+#### GOPRIVATE / GONOSUMDB
 
 当项目依赖私有仓库时，需要配置以下环境变量：
 
@@ -78,14 +78,14 @@ GONOPROXY=github.com/yourcompany/*,gitee.com/yourcompany/*
 GONOSUMDB=github.com/yourcompany/*,gitee.com/yourcompany/*
 ```
 
-## `go mod`常用命令
+### `go mod`常用命令
 
 - `go mod init xxx` 初始化当前文件夹，创建 go.mod 文件 xxx 为希望的 module 名
 - `go mod tidy` 增加缺少的 module，删除无用的 module
 - `go mod vendor` 将依赖复制到 vendor 下
 - 其他命令可使用`go mod help`自行查看
 
-## `go.mod`文件
+### `go.mod`文件
 
 例子
 
@@ -125,7 +125,7 @@ replace github.com/original/pkg => github.com/yourfork/pkg v1.0.0
 
 - indirect 表示间接引用
 
-### `go.sum`文件
+#### `go.sum`文件
 
 `go.sum`是依赖的校验文件，记录了每个依赖包的哈希值，用于确保依赖的完整性和一致性。该文件应该提交到版本控制系统中。
 
@@ -140,7 +140,7 @@ github.com/DeanThompson/ginpprof v0.0.0-20190408063150-3be636683586/go.mod h1:..
 
 > 运行`go mod tidy`时会自动更新`go.sum`，一般不需要手动编辑。
 
-### 大版本路径规则
+#### 大版本路径规则
 
 Go 模块从 `v2` 开始需要在模块路径中添加版本后缀：
 
@@ -156,11 +156,12 @@ module github.com/example/mymodule/v2
 ```
 
 这意味着升大版本时需要：
+
 1. 在`go.mod`中修改 module 路径，加上`/v2`后缀
 2. 代码中所有 import 路径也要同步修改
 3. 创建对应的 Git tag（如`v2.0.0`）
 
-## `go get`命令
+### `go get`命令
 
 在项目中执行`go get`命令可以下载依赖包，并且还可以指定下载的版本。
 
@@ -170,7 +171,7 @@ module github.com/example/mymodule/v2
 
    下载所有依赖可以使用`go mod download`命令
 
-## 其他操作
+### 其他操作
 
 - 格式化`go.mod`文件
   在手动修改`go.mod`文件后，使用`go mod edit -fmt`格式化`go.mod`文件
@@ -199,11 +200,11 @@ require (
 # go get github.com/DeanThompson/ginpprof@latest
 ```
 
-# Workspaces
+## Workspaces
 
 在`go 1.18`后，使用 workspaces 支持开发者同时在多个 module 中间进行编码（不需要修改 go.mod 文件），可以方便的进行编译运行等工作。常用于`common`组件开发，如日志库、错误库等等。
 
-## 常用命令
+### 常用命令
 
 - `go work` 或 `go help work` 查看帮助文档
 - `go work init` 初始化 workspaces 文件，创建一个`go.work`文件，并将添加指定文件夹中的 module。`go work init ./hello`
@@ -211,7 +212,7 @@ require (
 - `go work sync` 同步 workspace 内各 module 的依赖版本，将所有 module 的依赖统一到兼容版本
 - `go work edit` 命令行编辑`go.work`文件。`go work edit -use=./newmodule`
 
-## 实际操作
+### 实际操作
 
 1. 创建 `workspace` 工作目录
 
@@ -338,7 +339,7 @@ require (
 
    我们开发 example 中的公共代码，并在 hello 中进行测试。
 
-# 参考资料
+## 参考资料
 
 - [Go 语言之依赖管理](https://www.liwenzhou.com/posts/Go/go_dependency/)
 - [Go mod 常用与高级操作](https://www.cnblogs.com/span-phoenix/p/15311316.html)

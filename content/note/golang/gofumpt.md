@@ -24,7 +24,7 @@ UseHugoToc: true
 > 该工具是 Go 1.22 版本的 gofmt 的一个分支，需要 Go 1.21 或更高版本。
 > Vendor 和 testdata 目录将被跳过，除非作为显式参数给出。生成的 Go 文件也是如此。
 
-# 使用
+## 安装
 
 ```sh
 # 安装
@@ -33,13 +33,13 @@ go install mvdan.cc/gofumpt@latest
 
 ## 常用参数
 
-| 参数 | 说明 |
-|------|------|
-| `-l` | 列出需要格式化的文件（不修改） |
-| `-w` | 就地格式化文件 |
-| `-d` | 显示格式化差异（不修改文件） |
-| `-extra` | 启用额外的格式化规则 |
-| `-lang` | 指定 Go 语言版本（如 `-lang=1.21`），影响部分规则的行为 |
+| 参数     | 说明                                                    |
+| -------- | ------------------------------------------------------- |
+| `-l`     | 列出需要格式化的文件（不修改）                          |
+| `-w`     | 就地格式化文件                                          |
+| `-d`     | 显示格式化差异（不修改文件）                            |
+| `-extra` | 启用额外的格式化规则                                    |
+| `-lang`  | 指定 Go 语言版本（如 `-lang=1.21`），影响部分规则的行为 |
 
 ```sh
 # 查看哪些文件需要格式化
@@ -146,52 +146,7 @@ require("conform").setup({
 })
 ```
 
-### Emacs
-
-lsp-mode 8.0.0+：
-
-```elisp
-(setq lsp-go-use-gofumpt t)
-```
-
-lsp-mode < 8.0.0：
-
-```elisp
-(lsp-register-custom-settings
- '(("gopls.gofumpt" t)))
-```
-
-eglot：
-
-```elisp
-(setq-default eglot-workspace-configuration
- '((:gopls . ((gofumpt . t)))))
-```
-
-### Helix
-
-编辑 `~/.config/helix/languages.toml`：
-
-```toml
-[language-server.gopls.config]
-"formatting.gofumpt" = true
-```
-
-### Zed
-
-编辑 `settings.json`：
-
-```json
-"lsp": {
-  "gopls": {
-    "initialization_options": {
-      "gofumpt": true
-    }
-  }
-}
-```
-
-# 新增的规则
+## 新增的规则
 
 > 以下规则为 `gofumpt` 相对于 `gofmt` 新增的格式化策略。使用 `-extra` 标志可启用额外规则（文末标注）。
 
