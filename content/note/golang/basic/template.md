@@ -1,7 +1,7 @@
 ---
 date: "2025-12-29T22:32:37+08:00"
-title: "Golang -- Template 模板渲染"
-tags: ["Golang", "Template"]
+title: "Golang -- template 模板渲染"
+tags: ["Golang", "template"]
 categories: "笔记"
 # description: "Desc Text."
 draft: false

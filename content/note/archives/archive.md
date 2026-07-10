@@ -26,12 +26,13 @@ UseHugoToc: true
 
 ## Golang
 
-[Golang -- Template 模板渲染](/hugo-blog/note/golang/basic/template/)  
+[Golang -- template 模板渲染](/hugo-blog/note/golang/basic/template/)  
 [Golang -- net/rpc 包](/hugo-blog/note/golang/basic/rpc/)  
 [Golang -- log/slog 结构化日志包](/hugo-blog/note/golang/basic/slog/)  
 [Golang -- slice 原理&实践](/hugo-blog/note/golang/basic/slice_guide/)  
 [Golang -- map 底层实现](/hugo-blog/note/golang/basic/map_guide/)  
-[Golang -- sync.Pool 从使用到源码](/hugo-blog/note/golang/basic/sync_pool_guide/)
+[Golang -- sync.Pool 从使用到源码](/hugo-blog/note/golang/basic/sync_pool_guide/)  
+[Golang -- metricsc 参考](/hugo-blog/note/golang/basic/metrics_reference/)  
 
 [Golang -- 单元测试](/hugo-blog/note/golang/test/unit_test/)  
 [Golang -- 单元测试之 testify](/hugo-blog/note/golang/test/testify/)  
