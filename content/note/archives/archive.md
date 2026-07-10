@@ -53,6 +53,7 @@ UseHugoToc: true
 [MySQL -- 慢查询日志](/hugo-blog/note/database/mysql/slow_query_log/)  
 [MySQL -- 执行计划](/hugo-blog/note/database/mysql/query_execution_plan/)  
 [MongoDB -- 学习笔记](/hugo-blog/note/database/mongodb/mongodb/)  
+[Elasticsearch -- 基础操作](/hugo-blog/note/database/elasticsearch/elasticsearch/)  
 
 [Redis -- 基础使用](/hugo-blog/note/database/redis/redis_basic/)
 
