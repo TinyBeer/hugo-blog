@@ -45,8 +45,10 @@ UseHugoToc: true
 
 [Cache2go -- 轻量级的 Go 缓存库](/hugo-blog/note/golang/cache/cache2go/)  
 
+[Map -- 底层实现](/hugo-blog/note/golang/map-implementation/)  
+
 [gofumpt -- 更严格的代码格式化策略](/hugo-blog/note/golang/gofumpt/)  
-[Go模块管理速查手册](/hugo-blog/note/golang/module_quick_reference/)
+[Go模块管理速查手册](/hugo-blog/note/golang/module_quick_reference/)  
 
 ## 数据库 Database
 
