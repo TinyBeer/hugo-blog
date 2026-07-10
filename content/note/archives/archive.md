@@ -44,6 +44,8 @@ UseHugoToc: true
 
 [Cache2go -- 轻量级的 Go 缓存库](/hugo-blog/note/golang/cache/cache2go/)  
 
+[gofumpt -- 更严格的代码格式化策略](/hugo-blog/note/golang/gofumpt/)
+
 ## 数据库 Database
 
 [MySQL -- 基础使用](/hugo-blog/note/database/mysql/mysql_basic/)  
