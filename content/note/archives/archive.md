@@ -40,7 +40,9 @@ UseHugoToc: true
 
 [XORM -- 简单入门](/hugo-blog/note/golang/database/xorm/)  
 [XORM -- 查询缓存](/hugo-blog/note/golang/database/xorm_cache/)  
-[XORM -- 数据库反转工具 reverse](/hugo-blog/note/golang/database/xorm_reverse/)
+[XORM -- 数据库反转工具 reverse](/hugo-blog/note/golang/database/xorm_reverse/)  
+
+[Cache2go -- 轻量级的 Go 缓存库](/hugo-blog/note/golang/cache/cache2go/)  
 
 ## 数据库 Database
 
