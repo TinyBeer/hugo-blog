@@ -1,11 +1,12 @@
 ---
 date: '2026-07-05T19:25:48+08:00'
 title: 'slog 使用教程'
-tags: ['golang', 'slog']
+tags: ['Golang', 'slog']
 categories: "笔记"
 description: "Go 标准库 log/slog 结构化日志包使用教程，涵盖基本用法、Handler、自定义 Handler、性能优化及最佳实践。"
 draft: false
 searchHidden: false
+
 showToc: true
 TocOpen: true
 hidemeta: false
