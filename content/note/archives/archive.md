@@ -72,6 +72,7 @@ UseHugoToc: true
 
 ## 其他
 
+[二叉树的遍历总结](/hugo-blog/note/dsa/binarytree_traversal)  
 [Mermaid -- 语法笔记 ](/hugo-blog/note/mermaid/)
 
 ## 博客
