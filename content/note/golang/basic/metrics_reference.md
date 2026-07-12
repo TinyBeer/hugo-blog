@@ -19,7 +19,7 @@ ShowRssButtonInSectionTermList: false
 UseHugoToc: true
 ---
 
-metrics 包提供了一个稳定的接口来访问由 Go 运行时暴露的预定义好的指标数据。功能类似于 `runtime.ReadMemStats` 和 `runtime/debug.ReadGCStats`，但是更加通用。<!-- more -->
+metrics 包提供了一个稳定的接口来访问由 Go 运行时暴露的预定义好的指标数据。功能类似于 `runtime.ReadMemStats` 和 `runtime/debug.ReadGCStats`，但是更加通用。<!--more-->
 
 # 版本要求
 

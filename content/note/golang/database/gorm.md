@@ -19,7 +19,7 @@ ShowRssButtonInSectionTermList: false
 UseHugoToc: true
 ---
 
-[GORM](https://gorm.io/) 是一个使用 Go 语言编写的 ORM 框架。它文档（多语种）齐全，对开发者友好。支持主流关系型数据库（支持 SQL 语句），如 MySQL、MSSQL、PostgreSQL 等。使用 GORM 只需简单的几个函数调用就可实现对数据库复杂操作，极大地提高开发效率，降低开发门槛。<!-- more -->
+[GORM](https://gorm.io/) 是一个使用 Go 语言编写的 ORM 框架。它文档（多语种）齐全，对开发者友好。支持主流关系型数据库（支持 SQL 语句），如 MySQL、MSSQL、PostgreSQL 等。使用 GORM 只需简单的几个函数调用就可实现对数据库复杂操作，极大地提高开发效率，降低开发门槛。<!--more-->
 
 ## 什么是 ORM？
 

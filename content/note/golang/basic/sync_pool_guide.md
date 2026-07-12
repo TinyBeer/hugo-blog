@@ -19,7 +19,7 @@ ShowRssButtonInSectionTermList: false
 UseHugoToc: true
 ---
 
-`sync.Pool`是一个协程安全的临时对象存储池。主要用于缓存频繁使用的对象，以减少 GC 压力。<!-- more -->
+`sync.Pool`是一个协程安全的临时对象存储池。主要用于缓存频繁使用的对象，以减少 GC 压力。<!--more-->
 
 # 使用
 

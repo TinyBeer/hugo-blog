@@ -19,7 +19,7 @@ ShowRssButtonInSectionTermList: false
 UseHugoToc: true
 ---
 
-cache2go 是一个轻量级的 Go 缓存库，支持自动过期、并发安全，并提供丰富的回调机制。代码简洁易读，非常适合新手阅读学习。<!-- more -->
+cache2go 是一个轻量级的 Go 缓存库，支持自动过期、并发安全，并提供丰富的回调机制。代码简洁易读，非常适合新手阅读学习。<!--more-->
 
 ## 安装
 

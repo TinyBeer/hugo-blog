@@ -19,7 +19,7 @@ ShowRssButtonInSectionTermList: false
 UseHugoToc: true
 ---
 
-本文将对`go mod`和`go work`两个依赖管理工具进行简单的说明。未能解释清楚的地方可自行查阅官方文档。<!-- more -->
+本文将对`go mod`和`go work`两个依赖管理工具进行简单的说明。未能解释清楚的地方可自行查阅官方文档。<!--more-->
 
 ## module
 

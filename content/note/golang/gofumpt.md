@@ -19,7 +19,7 @@ ShowRssButtonInSectionTermList: false
 UseHugoToc: true
 ---
 
-[`gofumpt`](https://github.com/mvdan/gofumpt) 比 `gofmt` 更严格的代码格式化策略。它是 `gofmt` 的超集，同时向后兼容。<!-- more -->
+[`gofumpt`](https://github.com/mvdan/gofumpt) 比 `gofmt` 更严格的代码格式化策略。它是 `gofmt` 的超集，同时向后兼容。<!--more-->
 
 > 该工具是 Go 1.22 版本的 gofmt 的一个分支，需要 Go 1.21 或更高版本。
 > Vendor 和 testdata 目录将被跳过，除非作为显式参数给出。生成的 Go 文件也是如此。

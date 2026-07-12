@@ -19,7 +19,7 @@ ShowRssButtonInSectionTermList: false
 UseHugoToc: true
 ---
 
-slice 是 golang 中最常使用的基础数据结构之一。区别于数组，slice 是一个引用类型。<!-- more -->
+slice 是 golang 中最常使用的基础数据结构之一。区别于数组，slice 是一个引用类型。<!--more-->
 
 # 基础使用
 
