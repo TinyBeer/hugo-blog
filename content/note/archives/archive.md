@@ -40,6 +40,7 @@ UseHugoToc: true
 [Golang -- 单元测试之 testify](/hugo-blog/note/golang/test/testify/)  
 [Golang -- 基准测试](/hugo-blog/note/golang/test/benchmark/)  
 [go-wrk -- HTTP服务压力测试工具](/hugo-blog/note/golang/test/go-wrk/)  
+[Golang -- pprof 性能分析工具使用指南](/hugo-blog/note/golang/pprof/)  
 [takama/daemon -- 以守护进程方式运行服务](/hugo-blog/note/golang/golang_daemon/)  
 [zap -- 高性能结构化日志库](/hugo-blog/note/golang/zap)  
 
