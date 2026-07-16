@@ -568,7 +568,7 @@ func InitSync(orm *xorm.Engine) error {
 
 使用 pprof 分析后得到 CPU 时间占用图：
 
-![sync_cpu](https://gitee.com/tinybeer/im-bed/raw/master/sync_cpu_20260713145030988.png)
+![sync_cpu](https://raw.githubusercontent.com/TinyBeer/imbed/master/20260716161730338_sync_cpu.png)
 
 中间一条路径是执行最长的路径。沿此路径查阅 xorm 源码，定位到问题：
 
