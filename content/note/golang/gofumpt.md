@@ -4,7 +4,7 @@ title: "gofumpt -- 更严格的代码格式化策略"
 tags: ["Golang", "代码格式化"]
 categories: "笔记"
 description: ""
-draft: true
+draft: false
 searchHidden: false
 
 showToc: true

@@ -4,7 +4,7 @@ title: "Go模块管理速查手册.md"
 tags: ["Golang", "mod", "workspace"]
 categories: "笔记"
 description: ""
-draft: true
+draft: false
 searchHidden: false
 
 showToc: true
