@@ -34,7 +34,7 @@ UseHugoToc: true
 [Golang -- sync.Pool 从使用到源码](/hugo-blog/note/golang/basic/sync_pool_guide/)  
 [Golang -- metricsc 参考](/hugo-blog/note/golang/basic/metrics_reference/)  
 [Golang -- 协程池设计与实践](/hugo-blog/note/golang/goroutine_pool/)  
-[Golang -- 空结构体](/hugo-blog/note/golang/empty_struct/)  
+[Golang -- 空结构体](/hugo-blog/note/golang/empty_struct/)
 
 [Golang -- 单元测试](/hugo-blog/note/golang/test/unit_test/)  
 [Golang -- 单元测试之 testify](/hugo-blog/note/golang/test/testify/)  
@@ -42,7 +42,7 @@ UseHugoToc: true
 [go-wrk -- HTTP服务压力测试工具](/hugo-blog/note/golang/test/go-wrk/)  
 [Golang -- pprof 性能分析工具使用指南](/hugo-blog/note/golang/pprof/)  
 [takama/daemon -- 以守护进程方式运行服务](/hugo-blog/note/golang/golang_daemon/)  
-[zap -- 高性能结构化日志库](/hugo-blog/note/golang/zap)  
+[zap -- 高性能结构化日志库](/hugo-blog/note/golang/zap)
 
 [Gin -- 高性能的 Web 框架](/hugo-blog/note/golang/web/gin/)
 
@@ -65,7 +65,7 @@ UseHugoToc: true
 [Elasticsearch -- 基础操作](/hugo-blog/note/database/elasticsearch/elasticsearch/)
 
 [Redis -- 入门篇](/hugo-blog/note/database/redis/redis_beginner/)  
-[Redis -- 进阶篇](/hugo-blog/note/database/redis/redis_advanced/)  
+[Redis -- 进阶篇](/hugo-blog/note/database/redis/redis_advanced/)
 
 ## 容器化
 
@@ -87,6 +87,7 @@ UseHugoToc: true
 
 ## 其他
 
+[Make -- 工程自动化脚本工具](/hugo-blog/note/make)  
 [二叉树的遍历总结](/hugo-blog/note/dsa/binarytree_traversal)  
 [Mermaid -- 语法笔记 ](/hugo-blog/note/mermaid/)
 
